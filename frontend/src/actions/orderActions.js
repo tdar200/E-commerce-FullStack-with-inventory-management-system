@@ -137,7 +137,7 @@ export const payOrder = (order) => async (dispatch, getState) => {
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
-    dispatch({
+    dispatch({ 
       type: ORDER_PAY_FAIL,
       payload: message,
     });

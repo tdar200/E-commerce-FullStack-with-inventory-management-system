@@ -96,6 +96,8 @@ const RegisterScreen = ({ location, history }) => {
           </Link>
         </Col>
       </Row>
+
+      
     </FormContainer>
   )
 }

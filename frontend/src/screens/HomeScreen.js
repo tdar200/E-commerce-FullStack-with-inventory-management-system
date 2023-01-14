@@ -9,80 +9,71 @@ import Loader from "../components/Loader";
 import { listTopProducts } from "../actions/productActions";
 import ItemsCarousel from "react-items-carousel";
 
-
 const HomeScreen = ({ match, history }) => {
-
-
   const dispatch = useDispatch();
 
   const productTopRated = useSelector((state) => state.productTopRated);
   const { loading, error, products } = productTopRated;
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     dispatch(listTopProducts());
-    
   }, [dispatch, screenWidth]);
-
 
   const handleClick = (id) => {
     history.push(`/product/${id}`);
   };
 
   return (
-    <div style={{overflowX: "hidden"}}>
+    <div style={{ overflowX: "hidden" }}>
       <Helmet>
         <title>Welcome to Backyard BBQ</title>
         <meta
           name='description'
-          content='Restaurant online store for delivery'
-        ></meta>
+          content='Restaurant online store for delivery'></meta>
       </Helmet>
 
       {!loading && (
         <div
           style={{
-            backgroundImage: `url(${products[2].variants.variant_image})`,
+            backgroundImage: `url(${
+              products && products[2]?.variants?.variant_image
+            })`,
             height: "65vh",
             backgroundSize: "cover",
             flex: 1,
           }}
-          className='div-image'
-        >
+          className='div-image'>
           <div
             style={{
               display: "grid",
               height: "100%",
               justifyItems: "center",
               alignContent: "center",
-            }}
-          >
+            }}>
             <h1
               style={{
                 color: "white",
-               
+
                 textShadow: "3px 3px black",
                 textAlign: "center",
-              }}
-            >
+              }}>
               ENJOY ALL YOUR FAVORITE MEALS AT
             </h1>
             <h2
               style={{
                 color: "white",
-               
+
                 textAlign: "center",
                 textShadow: "3px 3px black",
-              }}
-            >
+              }}>
               BACKYARD BBQ RESTAURANT
             </h2>
             <Link
               style={{ justifyContent: "center", display: "flex" }}
-              to='/products'
-            >
+              to='/products'>
               <button className='center' variant='contained'>
                 START ORDER
               </button>
@@ -97,9 +88,7 @@ const HomeScreen = ({ match, history }) => {
             fontFamily: "Montserrat,sans-serif",
             fontWeight: "900",
             color: "#4a4a4a",
-            
-          }}
-        >
+          }}>
           BACKYARD BBQ'S DEALS
         </h3>
         {loading ? (
@@ -107,7 +96,7 @@ const HomeScreen = ({ match, history }) => {
         ) : error ? (
           <Message variant='danger'>{error} </Message>
         ) : (
-          <div className="carousel-slider" >
+          <div className='carousel-slider'>
             {/* {products.map((product, idx) => (
               <Col key={idx} sm={16} md={6} lg={4} xl={3}>
                 <Product product={product} />
@@ -122,28 +111,24 @@ const HomeScreen = ({ match, history }) => {
               leftChevron={
                 <i
                   style={{ color: "black" }}
-                  class='fas fa-chevron-circle-left'
-                ></i>
+                  class='fas fa-chevron-circle-left'></i>
               }
               rightChevron={
                 <i
                   style={{ color: "black" }}
-                  class='fas fa-chevron-circle-right'
-                ></i>
+                  class='fas fa-chevron-circle-right'></i>
               }
               outsideChevron
               chevronWidth={40}
               slidesToScroll={screenWidth < 850 ? 1 : 3}
               alwaysShowChevrons={false}
-              className="carousel-card"
-            >
+              className='carousel-card'>
               {products.map((product, idx) => {
                 return (
                   <Card
                     style={{ border: "1px solid rgba(0, 0, 0, 0.125)" }}
                     key={idx}
-                    className='my-3 p-3 rounded'
-                  >
+                    className='my-3 p-3 rounded'>
                     <Card.Img
                       style={{
                         width: "100%",
@@ -163,8 +148,7 @@ const HomeScreen = ({ match, history }) => {
                     </Card.Body>
                     <button
                       onClick={() => handleClick(product._id)}
-                      className='center-smaller'
-                    >
+                      className='center-smaller'>
                       ADD TO ORDER
                     </button>
                   </Card>
@@ -180,11 +164,8 @@ const HomeScreen = ({ match, history }) => {
             display: "flex",
             width: "100%",
             flex: 2,
-           
           }}
-
-          className="home-div"
-        >
+          className='home-div'>
           <div
             style={{
               backgroundImage: `url(https://lamarquise.ae/wp-content/uploads/2020/09/Mix-Grill-Platter-01.jpg)`,
@@ -202,34 +183,28 @@ const HomeScreen = ({ match, history }) => {
               display: "flex",
               height: "100%",
               width: "100%",
-              
+
               flexDirection: "column",
               backgroundColor: "floralwhite ",
               justifyContent: "center",
             }}
-
-            className="flex-div"
-          >
+            className='flex-div'>
             <h3
               style={{
                 color: "#4a4a4a",
-               
+
                 fontWeight: "900",
                 textAlign: "center",
                 fontFamily: "Montserrat,sans-serif",
-           
-              }}
-            >
+              }}>
               Try our new Arabic Platter !
             </h3>
             <h4
               style={{
                 color: "#4a4a4a",
-                
+
                 textAlign: "center",
-               
-              }}
-            >
+              }}>
               Every month we come out with a new and unique premium deals for
               you to try. Stop by your local Backyard BBQ today to try this
               month's exclusive deal. Hurry in before it's gone and keep your
@@ -243,8 +218,7 @@ const HomeScreen = ({ match, history }) => {
                 alignSelf: "center",
                 margin: "2rem",
               }}
-              to='/products'
-            >
+              to='/products'>
               <button className='center' variant='contained'>
                 LEARN MORE
               </button>
@@ -263,25 +237,22 @@ const HomeScreen = ({ match, history }) => {
             flex: 1,
             backgroundPosition: "center",
           }}
-          className='div-image'
-        >
+          className='div-image'>
           <div
             style={{
               display: "grid",
               height: "100%",
               justifyItems: "center",
               alignContent: "center",
-            }}
-          >
+            }}>
             <h3
               style={{
                 color: "white",
-                
+
                 fontWeight: "900",
                 textAlign: "center",
                 fontFamily: "Montserrat,sans-serif",
-              }}
-            >
+              }}>
               Get Backyard BBQ for Delivery or Pickup now !
             </h3>
             <h4
@@ -290,8 +261,7 @@ const HomeScreen = ({ match, history }) => {
                 fontSize: "20px",
                 textAlign: "center",
                 lineHeight: "2rem",
-              }}
-            >
+              }}>
               We've got food deals the whole family will love for lunch or
               dinner!
             </h4>
@@ -302,8 +272,7 @@ const HomeScreen = ({ match, history }) => {
                 display: "flex",
                 padding: "30px",
               }}
-              to='/products'
-            >
+              to='/products'>
               <button className='center' variant='contained'>
                 ORDER NOW
               </button>

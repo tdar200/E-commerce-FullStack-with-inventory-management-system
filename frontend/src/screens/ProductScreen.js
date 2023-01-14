@@ -40,7 +40,7 @@ const ProductScreen = ({ match, history }) => {
       (x) => x.option1_value === productList[x.option1_value]
     );
 
-  //   console.log(productFind)
+  // console.log(productFind)
   // console.log(cartItems);
   // console.log(product)
   // console.log(qty);

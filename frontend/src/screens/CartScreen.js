@@ -38,8 +38,6 @@ const CartScreen = ({ match, location, history }) => {
     history.push("/login?redirect=shipping");
   };
 
-  // console.log(history)
-
   return (
     <Col>
       <h1
