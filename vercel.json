@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "postbuild": "vercel env add NPM_CONFIG_PRODUCTION=false && vercel build -c 'cd frontend && npm install && npm run build'"
+    }
+}
