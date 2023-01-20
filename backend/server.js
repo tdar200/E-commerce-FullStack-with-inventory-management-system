@@ -65,7 +65,7 @@ app.get("/", (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 7000;
+const PORT = 6000;
 
 app.listen(
   PORT,
