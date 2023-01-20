@@ -31,7 +31,6 @@ const SalaryListScreen = ({ history, match }) => {
     receipt,
   } = receiptList;
 
-
   const inventoryDatesList = useSelector((state) => state.inventoryDates);
   const {
     loading: loadingDates,
@@ -74,8 +73,9 @@ const SalaryListScreen = ({ history, match }) => {
   };
 
   let totalSale = 0;
-  receipt &&
-    receipt.map((x) => {
+  console.log({ receipt });
+  receipt.length > 0 &&
+    receipt?.map((x) => {
       if (x._id === "SALE" || x._id === null) {
         totalSale = totalSale + x.Total;
       }
@@ -91,7 +91,10 @@ const SalaryListScreen = ({ history, match }) => {
           <h1>Financial Summary</h1>
         </Col>
       </Row>
-    
+
+      {console.log(
+        loadingDates && !loading && inventory && totalSale && expectedCash
+      )}
       {loadingDates && !loading && inventory && totalSale && expectedCash ? (
         <>
           <div className='banner_search'>
@@ -99,16 +102,14 @@ const SalaryListScreen = ({ history, match }) => {
               <div className='search'>
                 <DateRangePicker
                   ranges={[selectionRange]}
-                  onChange={handleSelect}
-                ></DateRangePicker>
+                  onChange={handleSelect}></DateRangePicker>
                 <Button onClick={handleSubmit}>Search Inventory</Button>
               </div>
             )}
             <Button
               className='banner_searchButton'
               variant='outlined'
-              onClick={() => setShowSearch(!showSearch)}
-            >
+              onClick={() => setShowSearch(!showSearch)}>
               Search Date
             </Button>
           </div>
@@ -157,16 +158,14 @@ const SalaryListScreen = ({ history, match }) => {
               <div className='search'>
                 <DateRangePicker
                   ranges={[selectionRange]}
-                  onChange={handleSelect}
-                ></DateRangePicker>
+                  onChange={handleSelect}></DateRangePicker>
                 <Button onClick={handleSubmit}>Search Inventory</Button>
               </div>
             )}
             <Button
               className='banner_searchButton'
               variant='outlined'
-              onClick={() => setShowSearch(!showSearch)}
-            >
+              onClick={() => setShowSearch(!showSearch)}>
               Search Date
             </Button>
           </div>

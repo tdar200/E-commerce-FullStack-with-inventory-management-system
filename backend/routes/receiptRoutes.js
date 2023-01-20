@@ -7,7 +7,6 @@ const admin = require("../middleware/authMiddleware");
 const axios = require("axios");
 const cron = require("node-cron");
 
-
 async function loop() {
   const config = {
     headers: {
@@ -32,41 +31,44 @@ async function loop() {
       $limit: 1,
     },
   ]);
- 
 
   (async () => {
-      if (LastData.length === 1) {
-        for (let i = 0; i < data.receipts.length; i++) {
-        if (
-          LastData[0].receipt_date < data.receipts[i].receipt_date 
-        ) {
+    if (LastData.length === 1) {
+      for (let i = 0; i < data.receipts.length; i++) {
+        if (LastData[0].receipt_date < data.receipts[i].receipt_date) {
+          let duplicate = await Receipt.find({
+            receipt_number: data.receipts[i].receipt_number,
+          });
 
-          let duplicate = await Receipt.find({receipt_number : data.receipts[i].receipt_number })
-        
-          console.log(duplicate)
-          if(duplicate.length === 0) {
-
+          console.log(duplicate);
+          if (duplicate.length === 0) {
             await Receipt.create(data.receipts[i]);
           }
-       
         }
       }
-      } else if (LastData.length === 0) {
-        await Receipt.create(data.receipts[0]);
-      }
-    
+    } else if (LastData.length === 0) {
+      await Receipt.create(data.receipts[0]);
+    }
   })();
 }
 
 // setInterval(loop, 60000);
 
+router.post("/webhooks/loyverse", async (req, res) => {
+  const { receipt_number, receipt_date } = req.body;
+  // check if receipt already exists
+  let duplicate = await Receipt.find({ receipt_number });
+  if (duplicate.length === 0) {
+    // create new receipt
+    await Receipt.create({ receipt_number, receipt_date });
+  }
+  res.send("OK");
+});
+
 router.route("/").get(
   asyncHandler(async (req, res) => {
-   
-
     const pageSize = 50;
     const page = req.query.pageNumber ? req.query.pageNumber : 1;
-
 
     if (req.query.display === "All") {
       const receipts = await Receipt.aggregate([

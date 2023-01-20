@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Row, Button, Col,} from "react-bootstrap";
+import { Table, Row, Button, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listReceipt } from "../actions/receiptActions";
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-
-
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 const ReceiptListScreen = ({ history, match }) => {
-
-
   const dispatch = useDispatch();
 
   const receiptList = useSelector((state) => state.receiptList);
   const { loading, error, receipt, page, pages } = receiptList;
 
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1);
 
-  console.log(receipt)
-
+  console.log(receipt);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -35,16 +30,15 @@ const ReceiptListScreen = ({ history, match }) => {
   }, [dispatch, history, userInfo, match, pageNumber]);
 
   const handleChange = (event, value) => {
-    setPageNumber(value)
-  }
- 
+    setPageNumber(value);
+  };
+
   return (
     <>
       <Row className='align-items-center'>
         <Col>
           <h1>Receipt</h1>
         </Col>
-      
       </Row>
       {loading ? (
         <Loader />
@@ -65,7 +59,7 @@ const ReceiptListScreen = ({ history, match }) => {
               </tr>
             </thead>
             <>
-              {receipt.receipts.map((receipt, idx) => {
+              {receipt?.receipts?.map((receipt, idx) => {
                 return (
                   <tbody key={idx}>
                     <tr>
@@ -89,15 +83,16 @@ const ReceiptListScreen = ({ history, match }) => {
               })}
             </>
           </Table>
-        <Row style={{display: "grid", justifyContent: "center"}}>
-        <Stack spacing={2}>
-  
-      <Pagination count={pages} page={page} onChange={handleChange} />
-    </Stack>
-        </Row>
-
-
-          
+          <Row style={{ display: "grid", justifyContent: "center" }}>
+            <Stack spacing={2}>
+              {console.log(page, " pageeeeeeeeeeeeeeeeee")}
+              <Pagination
+                count={Number(pages)}
+                page={Number(page)}
+                onChange={handleChange}
+              />
+            </Stack>
+          </Row>
         </>
       )}
     </>

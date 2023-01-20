@@ -18,7 +18,6 @@ import "../css/Search.css";
 import {
   listEmployee,
   createEmployee,
-  deleteEmployee,
   updateEmployee,
 } from "../actions/employeeActions";
 
@@ -88,10 +87,10 @@ const SalaryListScreen = ({ history, match }) => {
   const [updatedStartDate, setUpdatedStartDate] = useState(
     new Date().toISOString().slice(0, 10)
   );
-  const [updatedEndDate, setUpdatedEndDate] = useState("")
+  const [updatedEndDate, setUpdatedEndDate] = useState("");
   const [offDays, setOffDays] = useState(0);
   const [mongoId, setMongoId] = useState("");
-  const [id, setId] = useState("")
+  const [id, setId] = useState("");
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -125,7 +124,6 @@ const SalaryListScreen = ({ history, match }) => {
     if (!userInfo || !userInfo.isAdmin) {
       history.push("/login");
     } else {
-
       dispatch(listEmployee());
     }
 
@@ -184,16 +182,18 @@ const SalaryListScreen = ({ history, match }) => {
         last_name: lName,
         salary: [
           {
-          salary_id: salaryId,
-          monthly_salary: isNaN(updatedSalary) ? parseInt((updatedSalary).replace(",","")): updatedSalary ,
-          start_date: new Date(updatedStartDate).toISOString(),
-          end_date: updatedEndDate && updatedEndDate,
-          job_title: updatedJobTitle,
-        }
+            salary_id: salaryId,
+            monthly_salary: isNaN(updatedSalary)
+              ? parseInt(updatedSalary.replace(",", ""))
+              : updatedSalary,
+            start_date: new Date(updatedStartDate).toISOString(),
+            end_date: updatedEndDate && updatedEndDate,
+            job_title: updatedJobTitle,
+          },
         ],
         employeed: employeed,
         id_number: updatedId,
-        _id: mongoId
+        _id: mongoId,
       })
     );
   };
@@ -263,16 +263,14 @@ const SalaryListScreen = ({ history, match }) => {
     if (mongoId) {
       let returnedValue = employee.find((x) => x._id === mongoId);
 
-
       if (returnedValue) {
-
-        let index = returnedValue.salary.length - 1
-      console.log(returnedValue.salary[index])
+        let index = returnedValue.salary.length - 1;
+        console.log(returnedValue.salary[index]);
 
         setUpdatedId(() => returnedValue.id_number && returnedValue.id_number);
         setUpdatedJobTitle(() => returnedValue.salary[index].job_title);
         setUpdatedSalary(() => returnedValue.salary[index].monthly_salary);
-        setSalaryId(() => returnedValue.salary[index]._id)
+        setSalaryId(() => returnedValue.salary[index]._id);
         setUpdatedStartDate(
           () =>
             returnedValue.salary[index].start_date &&
@@ -304,8 +302,7 @@ const SalaryListScreen = ({ history, match }) => {
                   type='text'
                   placeholder='Enter First Name'
                   value={fName}
-                  onChange={(e) => setFName(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) => setFName(e.target.value)}></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='lname' style={{ padding: 10 }}>
@@ -314,8 +311,7 @@ const SalaryListScreen = ({ history, match }) => {
                   type='text'
                   placeholder='Enter Last Name'
                   value={lName}
-                  onChange={(e) => setLName(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) => setLName(e.target.value)}></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='id' style={{ padding: 10 }}>
@@ -326,8 +322,7 @@ const SalaryListScreen = ({ history, match }) => {
                   type='text'
                   placeholder='Enter ID'
                   value={id}
-                  onChange={(e) => setId(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) => setId(e.target.value)}></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='jobtitle' style={{ padding: 10 }}>
@@ -336,8 +331,7 @@ const SalaryListScreen = ({ history, match }) => {
                   type='text'
                   placeholder='Enter Job Title'
                   value={jobTitle}
-                  onChange={(e) => setJobTitle(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) => setJobTitle(e.target.value)}></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='salary' style={{ padding: 10 }}>
@@ -346,8 +340,7 @@ const SalaryListScreen = ({ history, match }) => {
                   type='text'
                   placeholder='Enter Salary'
                   value={salary.toLocaleString()}
-                  onChange={(e) => setSalary(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) => setSalary(e.target.value)}></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='date_employeed' style={{ padding: 10 }}>
@@ -356,8 +349,9 @@ const SalaryListScreen = ({ history, match }) => {
                   type='date'
                   placeholder='Enter Date Employeed'
                   value={dateEmployeed}
-                  onChange={(e) => setDateEmployeed(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) =>
+                    setDateEmployeed(e.target.value)
+                  }></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='off_days' style={{ padding: 10 }}>
@@ -369,16 +363,14 @@ const SalaryListScreen = ({ history, match }) => {
                   placeholder='Enter Off Days'
                   value={offDays}
                   onChange={(e) => setOffDays(e.target.value)}
-                  max={4}
-                ></Form.Control>
+                  max={4}></Form.Control>
               </Form.Group>
 
               <Row style={{ margin: 15 }}>
                 <Button
                   variant='primary'
                   type='submit'
-                  onClick={() => setShow(false)}
-                >
+                  onClick={() => setShow(false)}>
                   Save Changes
                 </Button>
               </Row>
@@ -421,13 +413,14 @@ const SalaryListScreen = ({ history, match }) => {
               </Form.Group>
 
               <Form.Group controlId='id' style={{ padding: 10 }}>
-                <Form.Label style={{ padding: 10 }}>Identification Number</Form.Label>
+                <Form.Label style={{ padding: 10 }}>
+                  Identification Number
+                </Form.Label>
                 <Form.Control
                   type='text'
                   placeholder='Enter Id'
                   value={updatedId && updatedId}
-                  onChange={(e) => setUpdatedId(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) => setUpdatedId(e.target.value)}></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='jobtitle' style={{ padding: 10 }}>
@@ -436,8 +429,9 @@ const SalaryListScreen = ({ history, match }) => {
                   type='text'
                   placeholder='Enter Job Title'
                   value={updatedJobTitle}
-                  onChange={(e) => setUpdatedJobTitle(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) =>
+                    setUpdatedJobTitle(e.target.value)
+                  }></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='salary' style={{ padding: 10 }}>
@@ -446,8 +440,9 @@ const SalaryListScreen = ({ history, match }) => {
                   type='text'
                   placeholder='Enter Salary'
                   value={updatedSalary && updatedSalary.toLocaleString()}
-                  onChange={(e) => setUpdatedSalary(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) =>
+                    setUpdatedSalary(e.target.value)
+                  }></Form.Control>
               </Form.Group>
 
               <Form.Group controlId='start_date' style={{ padding: 10 }}>
@@ -456,20 +451,23 @@ const SalaryListScreen = ({ history, match }) => {
                   type='date'
                   placeholder='Enter Date Employeed'
                   value={updatedStartDate}
-                  onChange={(e) => setUpdatedStartDate(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) =>
+                    setUpdatedStartDate(e.target.value)
+                  }></Form.Control>
               </Form.Group>
 
-
-              {employeed === false && <Form.Group controlId='start_date' style={{ padding: 10 }}>
-                <Form.Label style={{ padding: 10 }}>End Date</Form.Label>
-                <Form.Control
-                  type='date'
-                  placeholder='Enter Date Fired'
-                  value={updatedEndDate}
-                  onChange={(e) => setUpdatedEndDate(e.target.value)}
-                ></Form.Control>
-              </Form.Group>}
+              {employeed === false && (
+                <Form.Group controlId='start_date' style={{ padding: 10 }}>
+                  <Form.Label style={{ padding: 10 }}>End Date</Form.Label>
+                  <Form.Control
+                    type='date'
+                    placeholder='Enter Date Fired'
+                    value={updatedEndDate}
+                    onChange={(e) =>
+                      setUpdatedEndDate(e.target.value)
+                    }></Form.Control>
+                </Form.Group>
+              )}
 
               <Form.Group controlId='date_employeed' style={{ padding: 10 }}>
                 <Form.Label style={{ padding: 10 }}>Employeed</Form.Label>
@@ -499,8 +497,7 @@ const SalaryListScreen = ({ history, match }) => {
                 <Button
                   variant='primary'
                   type='submit'
-                  onClick={() => setUpdateShow(false)}
-                >
+                  onClick={() => setUpdateShow(false)}>
                   Save Changes
                 </Button>
               </Row>
@@ -520,38 +517,39 @@ const SalaryListScreen = ({ history, match }) => {
             <thead>
               <tr></tr>
             </thead>
-            {employee.map((name, idx) => {
+            {employee?.map((name, idx) => {
               return (
                 <tbody style={{ backgroundColor: "white" }} key={idx}>
                   <tr style={{ backgroundColor: "white" }}>
                     <Accordion
-                      style={{ width: "100%", backgroundColor: "white" }}
-                    >
+                      style={{ width: "100%", backgroundColor: "white" }}>
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls='panel1c-content'
                         id='panel1c-header'
-                        style={{ width: "100%", flex: 1 }}
-                      >
+                        style={{ width: "100%", flex: 1 }}>
                         <td>
-                          <div className={classes.column}>
-                            <Typography className={classes.heading}>
-                              {name.first_name}
-                            </Typography>
-                          </div>
+                          <React.Fragment>
+                            <div className={classes.column}>
+                              <Typography className={classes.heading}>
+                                {name.first_name}
+                              </Typography>
+                            </div>
+                          </React.Fragment>
 
                           {/* <div className={classes.column}>
                             <Typography className={classes.secondaryHeading}>
                               Total Paid - Rs. {name.total_paid}
                             </Typography>
                           </div> */}
-
-                          <div className={classes.column}>
-                            <Typography className={classes.secondaryHeading}>
-                              Monthly Salary - Rs.{" "}
-                              {name.salary[0].monthly_salary}
-                            </Typography>
-                          </div>
+                          <React.Fragment>
+                            <div className={classes.column}>
+                              <Typography className={classes.secondaryHeading}>
+                                Monthly Salary - Rs.{" "}
+                                {name.salary[0].monthly_salary}
+                              </Typography>
+                            </div>
+                          </React.Fragment>
                           {/* 
                           <div className={classes.column}>
                             <Typography className={classes.secondaryHeading}>
@@ -571,8 +569,7 @@ const SalaryListScreen = ({ history, match }) => {
                           bordered
                           hover
                           variant='light'
-                          style={{ width: "100%" }}
-                        >
+                          style={{ width: "100%" }}>
                           <thead>
                             <tr>
                               <th>LAST UPDATED</th>
