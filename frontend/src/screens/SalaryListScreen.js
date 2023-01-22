@@ -1,19 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
-// import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button, Row, Col, Modal, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-// import { DateRangePicker } from "react-date-range";
 import Message from "../components/Message";
-// import Loader from "../components/Loader";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-// import Paginate from "../components/Paginate";
-import {
-  salaryInventory,
-  // listDatesInventory,
-} from "../actions/inventoryActions";
-// import { INVENTORY_CREATE_RESET } from "../constants/productConstants";
-// import { listDatesInventory } from "../actions/inventoryActions";
 import "../css/Search.css";
 import {
   listEmployee,
@@ -27,10 +17,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
-// import Chip from "@material-ui/core/Chip";
-// import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core/styles";
-// import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
 import Select from "react-select";
 
@@ -98,22 +85,22 @@ const SalaryListScreen = ({ history, match }) => {
   const employeeList = useSelector((state) => state.employeeList);
   const {
     loading: loadingEmployeeList,
-    error: errorEmployeeList,
-    success: successEmployeeList,
+    // error: errorEmployeeList,
+    // success: successEmployeeList,
     employee,
   } = employeeList;
 
   const employeeCreate = useSelector((state) => state.employeeCreate);
   const {
-    loading: loadingEmployeeCreate,
+    // loading: loadingEmployeeCreate,
     error: errorEmployeeCreate,
     success: successEmployeeCreate,
   } = employeeCreate;
 
   const employeeUpdate = useSelector((state) => state.employeeUpdate);
   const {
-    loading: loadingEmployeeUpdate,
-    error: errorEmployeeUpdate,
+    // loading: loadingEmployeeUpdate,
+    // error: errorEmployeeUpdate,
     success: successEmployeeUpdate,
   } = employeeUpdate;
 
@@ -172,8 +159,6 @@ const SalaryListScreen = ({ history, match }) => {
     );
   };
 
-  // console.log(updatedSalary)
-
   const submitUpdateHandler = (e) => {
     e.preventDefault();
     dispatch(
@@ -197,67 +182,12 @@ const SalaryListScreen = ({ history, match }) => {
       })
     );
   };
-  // const uniqueNames = Array.from(
-  //   new Set(inventory.map((items) => items.item_name))
-  // ).sort((a, b) => a.localeCompare(b));
+
   const reactSelectList = employee.map((items, idx) => ({
     label: `${items.first_name} ${items.last_name}`,
     value: idx,
     id: items._id,
   }));
-
-  // const totes = {};
-
-  // uniqueNames.filter((item) => {
-  //   let sum = 0;
-  //   inventory.map((items, idx) => {
-  //     if (items.item_name === item) {
-  //       sum = sum + items.total_cost;
-
-  //       totes[item] = {
-  //         total_paid: sum,
-  //       };
-
-  //       inventoryLevel.map((iL, idx) => {
-  //         if (iL.item === item) {
-  //           let total = 0;
-
-  //           if (iL.salary[0]) {
-  //             let monthlySalary =
-  //               iL.salary[iL.salary.length - 1].monthly_salary;
-
-  //             // totes[item] = {
-  //             //   monthly_salary: monthlySalary,
-  //             // };
-
-  //             for (let i = 0; i < iL.salary.length; i++) {
-  //               const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-  //               let firstDate = new Date(iL.salary[i].start_date);
-  //               let secondDate = iL.salary[i].end_date
-  //                 ? new Date(iL.salary[i].end_date)
-  //                 : new Date();
-
-  //               let diffDays = Math.round(
-  //                 Math.abs((firstDate - secondDate) / oneDay)
-  //               );
-
-  //               let dailySalary =
-  //                 (parseInt(iL.salary[i].monthly_salary) * 12) / 365;
-
-  //               total = diffDays * dailySalary + total;
-
-  //               totes[item] = {
-  //                 total_payable: total,
-  //                 total_paid: sum,
-  //                 monthly_salary: monthlySalary,
-  //               };
-  //             }
-  //           }
-  //         }
-  //       });
-  //     }
-  //   });
-  // });
 
   useMemo(() => {
     if (mongoId) {
@@ -393,7 +323,6 @@ const SalaryListScreen = ({ history, match }) => {
                 <Select
                   className='basic-single'
                   classNamePrefix='select'
-                  // defaultValue={employee && `${employee[0].first_name} ${employee[0].last_name}`}
                   isDisabled={false}
                   isLoading={!reactSelectList}
                   isClearable={false}
@@ -505,9 +434,7 @@ const SalaryListScreen = ({ history, match }) => {
           </Modal.Body>
         </Modal>
       </Row>
-      {/* {loadingDelete && <Loader />} */}
-      {/* {errorDelete && <Message variant='danger'>{errorDelete}</Message>} */}
-      {/* {loadingCreate && <Loader />} */}
+
       {errorEmployeeCreate && (
         <Message variant='danger'>{errorEmployeeCreate}</Message>
       )}
@@ -537,11 +464,6 @@ const SalaryListScreen = ({ history, match }) => {
                             </div>
                           </React.Fragment>
 
-                          {/* <div className={classes.column}>
-                            <Typography className={classes.secondaryHeading}>
-                              Total Paid - Rs. {name.total_paid}
-                            </Typography>
-                          </div> */}
                           <React.Fragment>
                             <div className={classes.column}>
                               <Typography className={classes.secondaryHeading}>
@@ -550,17 +472,6 @@ const SalaryListScreen = ({ history, match }) => {
                               </Typography>
                             </div>
                           </React.Fragment>
-                          {/* 
-                          <div className={classes.column}>
-                            <Typography className={classes.secondaryHeading}>
-                              Remainder Balance - Rs.
-                              {totes[name].total_payable &&
-                                (
-                                  totes[name].total_payable -
-                                  totes[name].total_paid
-                                ).toFixed(1)}
-                            </Typography>
-                          </div> */}
                         </td>
                       </AccordionSummary>
 
@@ -576,24 +487,6 @@ const SalaryListScreen = ({ history, match }) => {
                               <th>TOTAL PAID</th>
                             </tr>
                           </thead>
-                          {/* {inventory &&
-                            inventory.map((items, idx) => {
-                              if (items.item_name === name) {
-                                return (
-                                  <tbody key={idx}>
-                                    <tr>
-                                      <td>
-                                        {new Date(
-                                          items.date_paid
-                                        ).toLocaleDateString()}
-                                      </td>
-
-                                      <td>Rs. {items.total_cost}</td>
-                                    </tr>
-                                  </tbody>
-                                );
-                              }
-                            })} */}
                         </Table>
                       </AccordionDetails>
                     </Accordion>
@@ -602,44 +495,6 @@ const SalaryListScreen = ({ history, match }) => {
               );
             })}
           </Table>
-
-          {/* <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>EDITED BY</th>
-                <th>DATE CREATED</th>
-                <th>NAME</th>
-                <th>MONTHLY SALARY</th>
-                <th>PAID</th>
-                <th>REMAINDER SALARY</th>
-                <th>PAYMENT DATE</th>
-                <th>EDIT/DELETE</th>
-              </tr>
-            </thead>
-            <>
-              {employee &&
-                employee.map((employee) => {
-                  return (
-                    <tbody key={employee._id}>
-                      <tr>
-                        <td>{employee.edited_by}</td>
-                        <td>{employee.createdAt.slice(0, 10)}</td>
-                        <td>{employee.item_name}</td>
-                        <td>{employee.salary[0].monthly_salary}</td>
-                        <td>{employee.paid && "PAID"}</td>
-                        <td>{employee.total_cost}</td>
-                        <td>{employee.date_paid.slice(0, 10)}</td>
-                        <td>
-                          <Button variant='light' className='btn-sm'>
-                            <i className='fas fa-edit'></i>
-                          </Button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  );
-                })}
-            </>
-          </Table> */}
         </>
       )}
     </>

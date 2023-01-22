@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Row, Button, Col,  Card } from "react-bootstrap";
+import { Row, Button, Col, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { deleteRecipe, listRecipes } from "../actions/recipeActions";
 
-
 const RecipeListScreen = ({ history }) => {
-
   const dispatch = useDispatch();
 
   const recipeList = useSelector((state) => state.recipeList);
@@ -33,7 +31,6 @@ const RecipeListScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo, successDelete]);
 
-
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure")) {
       dispatch(deleteRecipe(id));
@@ -51,7 +48,7 @@ const RecipeListScreen = ({ history }) => {
       </Col>
       <Row className='align-items-center'>
         <Col>
-        <h1 style={{ textAlign: "center" }}>RECIPES</h1>
+          <h1 style={{ textAlign: "center" }}>RECIPES</h1>
         </Col>
       </Row>
       {loading ? (
@@ -60,24 +57,22 @@ const RecipeListScreen = ({ history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-            <Row style={{ display: "flex" }}>
-              {recipe.map((recipe, idx) => {
-                return (
-                  <Col
+          <Row style={{ display: "flex" }}>
+            {recipe.map((recipe, idx) => {
+              return (
+                <Col
                   style={{ width: "25%" }}
                   key={idx}
                   sm={16}
                   md={6}
                   lg={4}
-                  xl={3}
-                >
+                  xl={3}>
                   <Card key={idx} className='my-3 p-3 rounded'>
                     <Link
                       style={{
                         boxShadow: "0 2px 10px 0 hsl(0deg 0% 61% / 50%)",
                       }}
-                      to={`recipe/${recipe._id}/edit/${recipe.label}`}
-                    >
+                      to={`recipe/${recipe._id}/edit/${recipe.label}`}>
                       <Card.Img
                         style={{
                           width: "100%",
@@ -91,28 +86,28 @@ const RecipeListScreen = ({ history }) => {
                     </Link>
 
                     <Card.Body>
-                      <Card.Title style={{padding: "10px", minHeight: "100px"}} as='div'>
+                      <Card.Title
+                        style={{ padding: "10px", minHeight: "100px" }}
+                        as='div'>
                         <strong>{recipe.label}</strong>
                       </Card.Title>
                       <Button
                         onClick={() => deleteHandler(recipe._id)}
-                        
                         className='social-media'
                         type='button'
                         style={{
                           width: "100%",
                           backgroundColor: "red",
                           fontSize: "0.6em",
-                        }}
-                      >
+                        }}>
                         DELETE
                       </Button>
                     </Card.Body>
                   </Card>
                 </Col>
-                );
-              })}
-            </Row>
+              );
+            })}
+          </Row>
         </>
       )}
     </>
