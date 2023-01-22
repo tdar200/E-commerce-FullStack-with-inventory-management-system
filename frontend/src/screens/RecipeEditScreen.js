@@ -4,7 +4,6 @@ import { Button, Form, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
-import Loader from "../components/Loader";
 import Select from "react-select";
 import {
   listRecipes,
@@ -23,8 +22,6 @@ const RecipeEditScreen = ({ history, match }) => {
   const recipeId = match.params.id;
   const pName = match.params.name;
 
-  // console.log(match);
-
   const dispatch = useDispatch();
 
   const recipeUpdate = useSelector((state) => state.recipeUpdate);
@@ -39,9 +36,6 @@ const RecipeEditScreen = ({ history, match }) => {
 
   const recipeDetails = useSelector((state) => state.recipeDetails);
   const { loading, success, recipe } = recipeDetails;
-
-  // console.log(recipe)
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -55,14 +49,9 @@ const RecipeEditScreen = ({ history, match }) => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [productDetail, setProductDetail] = useState({});
 
-  // console.log(filteredCategories);
-
-  // console.log(history.goBack)
   useMemo(() => {
     dispatch({ type: RECIPE_DETAILS_RESET });
   }, [dispatch]);
-
-  // console.log(productDetail);
 
   useMemo(async () => {
     const config = {
@@ -247,8 +236,6 @@ const RecipeEditScreen = ({ history, match }) => {
     );
   };
 
-  // console.log(productDetail)
-
   return (
     filteredCategories &&
     ingredients[0] && (
@@ -270,8 +257,7 @@ const RecipeEditScreen = ({ history, match }) => {
                 backgroundPosition: "center",
                 flex: 1,
               }}
-              className='div-image'
-            ></div>
+              className='div-image'></div>
             {loadingUpdate && loading}
             {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
             {filteredCategories && ingredients && (
@@ -294,8 +280,7 @@ const RecipeEditScreen = ({ history, match }) => {
                             padding: 10,
                             borderRadius: 15,
                             flex: 3,
-                          }}
-                        >
+                          }}>
                           <Form.Label>Ingredient</Form.Label>
                           <Row></Row>
                           <Fragment>
@@ -320,7 +305,6 @@ const RecipeEditScreen = ({ history, match }) => {
                         </Form.Group>
                       )}
 
-                      {/* add weight to input */}
                       <Form.Group
                         as={Col}
                         controlId='weight'
@@ -329,16 +313,16 @@ const RecipeEditScreen = ({ history, match }) => {
                           alignItems: "center",
                           padding: 10,
                           borderRadius: 15,
-                        }}
-                      >
+                        }}>
                         <Form.Label>Weight (Grams)</Form.Label>
                         <Form.Control
                           name='weight'
                           type='text'
                           placeholder='Enter Weight'
                           value={i.weight}
-                          onChange={(e) => handleInputChange(e, index)}
-                        ></Form.Control>
+                          onChange={(e) =>
+                            handleInputChange(e, index)
+                          }></Form.Control>
                       </Form.Group>
 
                       <Form.Group
@@ -349,8 +333,7 @@ const RecipeEditScreen = ({ history, match }) => {
                           alignItems: "center",
                           padding: 10,
                           borderRadius: 15,
-                        }}
-                      >
+                        }}>
                         <Form.Label>Average Cost</Form.Label>
                         <Form.Control
                           name='averageCost'
@@ -361,8 +344,7 @@ const RecipeEditScreen = ({ history, match }) => {
                               ? ingredients[index].average_cost.toFixed(2)
                               : 0
                           }
-                          readOnly
-                        ></Form.Control>
+                          readOnly></Form.Control>
                       </Form.Group>
 
                       <Form.Group
@@ -374,8 +356,7 @@ const RecipeEditScreen = ({ history, match }) => {
                           borderRadius: 15,
                           flexDirection: "flex-end",
                           textAlign: "center",
-                        }}
-                      >
+                        }}>
                         <Form.Label>Add/Remove</Form.Label>
                         <div style={{ width: 10, height: 0 }}></div>
                         {ingredients.length - 1 === index && (
@@ -386,8 +367,7 @@ const RecipeEditScreen = ({ history, match }) => {
                               marginRight: 5,
                               backgroundColor: "red",
                               border: 0,
-                            }}
-                          >
+                            }}>
                             <i className='fas fa-plus'></i>
                           </Button>
                         )}
@@ -395,8 +375,7 @@ const RecipeEditScreen = ({ history, match }) => {
                         {ingredients.length !== 1 && (
                           <Button
                             onClick={() => handleRemoveClick(index)}
-                            style={{ backgroundColor: "red", border: 0 }}
-                          >
+                            style={{ backgroundColor: "red", border: 0 }}>
                             <i className='fas fa-minus'></i>
                           </Button>
                         )}
@@ -405,27 +384,26 @@ const RecipeEditScreen = ({ history, match }) => {
                   );
                 })}
 
-                { (
+                {
                   <Row style={{ display: "flex", flex: 2 }}>
-                    {productDetail !== undefined && productDetail.variants && <Form.Group
-                      as={Col}
-                      controlId='sellingPrice'
-                      style={{
-                        flex: 1,
-                        padding: 10,
-                        borderRadius: 15,
-                      }}
-                    >
-                      <Form.Label>Selling Price</Form.Label>
-                      <Form.Control
-                        name='sellingPrice'
-                        type='text'
-                        placeholder='Selling Price'
-                        value={productDetail.variants.default_price}
-                        readOnly
-                      ></Form.Control>
-                    </Form.Group>}
-                    
+                    {productDetail !== undefined && productDetail.variants && (
+                      <Form.Group
+                        as={Col}
+                        controlId='sellingPrice'
+                        style={{
+                          flex: 1,
+                          padding: 10,
+                          borderRadius: 15,
+                        }}>
+                        <Form.Label>Selling Price</Form.Label>
+                        <Form.Control
+                          name='sellingPrice'
+                          type='text'
+                          placeholder='Selling Price'
+                          value={productDetail.variants.default_price}
+                          readOnly></Form.Control>
+                      </Form.Group>
+                    )}
 
                     <Form.Group
                       as={Col}
@@ -434,26 +412,23 @@ const RecipeEditScreen = ({ history, match }) => {
                         flex: 1,
                         padding: 10,
                         borderRadius: 15,
-                      }}
-                    >
+                      }}>
                       <Form.Label>Total Cost</Form.Label>
                       <Form.Control
                         name='totalCost'
                         type='text'
                         placeholder='Total Cost'
-                        value={totalCost ? totalCost.toFixed(2): 0}
-                        readOnly
-                      ></Form.Control>
+                        value={totalCost ? totalCost.toFixed(2) : 0}
+                        readOnly></Form.Control>
                     </Form.Group>
                   </Row>
-                )}
+                }
 
                 <Row>
                   <Button
                     type='submit'
                     variant='primary'
-                    style={{ backgroundColor: "red", border: 0 }}
-                  >
+                    style={{ backgroundColor: "red", border: 0 }}>
                     Submit
                   </Button>
                 </Row>

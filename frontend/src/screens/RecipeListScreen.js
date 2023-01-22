@@ -18,8 +18,8 @@ const RecipeListScreen = ({ history }) => {
 
   const recipeDelete = useSelector((state) => state.recipeDelete);
   const {
-    loading: loadingDelete,
-    error: errorDelete,
+    // loading: loadingDelete,
+    // error: errorDelete,
     success: successDelete,
   } = recipeDelete;
 

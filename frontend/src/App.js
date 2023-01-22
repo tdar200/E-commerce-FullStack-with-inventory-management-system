@@ -33,12 +33,19 @@ import SalaryListScreen from "./screens/SalaryListScreen";
 import FinancialSummaryScreen from "./screens/FinancialSummaryScreen";
 import BillScreen from "./screens/BillScreen";
 
-const App = () => {
+const App = (props) => {
+  console.log(props);
+  // const location = useLocation();
+  // const paramshook = useParams();
+
+  // console.log({ location }, "locaaaaaaaaaaaaaaaaaaaaaaaaation");
+  // console.log(paramshook && paramshook);
+
   const withHeader = () => {
     return (
       <div>
         <Header />
-        <main className='py-3'>
+        <main style={{ background: "#fff7f7" }} className='py-3'>
           <Switch>
             <Route path='/page/:pageNumber' component={HomeScreen} exact />
             <Route
