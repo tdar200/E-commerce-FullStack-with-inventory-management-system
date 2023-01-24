@@ -6,7 +6,6 @@ import { listInventoryLevel } from "../actions/inventoryLevelActions";
 import { groupInventory } from "../actions/inventoryActions";
 import { listRecipes } from "../actions/recipeActions";
 
-
 const TotalStock = () => {
   const dispatch = useDispatch();
 
@@ -73,117 +72,115 @@ const TotalStock = () => {
   //     }
   //   }
   // });
-  
 
-  const updatedInventoryLevel = useCallback(() => 
-      {
-        inventoryLevel.forEach((inventorylevel) => {
-          const { updated_at, item, category, in_stock } = inventorylevel;
-    
-          const inventoryLevelDate = (updated_at).toISOString();
-          // let inventoryDate = inventoryLevelDate.toISOString();
-    
-          // console.log(inventoryLevelDate.getTime())
-          // console.log(updated_at)
-    
-          receipt.forEach((receipts) => {
-            const { updated_at, created_at, line_items } = receipts;
-    
-            const receiptsDate = new Date(created_at);
-    
-            // console.log(receiptsDate.getTime())
-    
-            if (receiptsDate.getTime() > inventoryLevelDate.getTime()) {
-              line_items.map((lineItems) => {
-                const { variant_id, item_name, variant_name, quantity } = lineItems;
-    
-                let splitted = variant_name && variant_name.split("/");
-                let name = splitted && splitted[0];
-                // let size = splitted && splitted[1];
-                let updatedQuantity = in_stock - quantity;
-                let list = [...data, { updated_at: "", item: "", category: "", in_stock: 0, variant_id: "" }];
-                if (name === item) {
-                  // console.log(name + " / " + item)
-                  // console.log(lineItems +  " / " + inventorylevel)
-    
-                  list[index]["updated_at"] = created_at;
-                  list[index]["item"] = item;
-                  list[index]["category"] = category;
-                  list[index]["in_stock"] = updatedQuantity;
-                  list[index]["variant_id"] = variant_id;
-    
-                  // list.push({
-                  //   updated_at: created_at,
-                  //   item: item,
-                  //   category: category,
-                  //   in_stock: updatedQuantity,
-                  //   variant_id: variant_id,
-                  // });
-    
-                  setData([list]);
-                  setIndex((index) => index + 1);
-                  // return setData(() => [list]);
-    
-                  // return {
-                  //   updated_at: created_at,
-                  //   item: item,
-                  //   category: category,
-                  //   in_stock: updatedQuantity,
-                  //   variant_id: variant_id,
-                  // };
-                } else {
-                  recipe.map((recipes) => {
-                    const { label, ingredients } = recipes;
-    
-                    if (label === name) {
-                      ingredients.map((ingredient) => {
-                        const { text, weight } = ingredient;
-    
-                        inventoryLevel.find((item) => {
-                          if (item.item === text) {
-                            const totalWeight = weight * quantity;
-    
-                            list[index]["updated_at"] = created_at;
-                            list[index]["item"] = item;
-                            list[index]["category"] = category;
-                            list[index]["in_stock"] = in_stock - totalWeight;
-                            list[index]["variant_id"] = variant_id;
-    
-                            // list.push({
-                            //   updated_at: created_at,
-                            //   item: item,
-                            //   category: category,
-                            //   in_stock: in_stock - totalWeight,
-                            //   variant_id: variant_id,
-                            // });
-                            setIndex((index) => index + 1);
-                            setData([list])
-                            
-                          }
-                        });
-                      });
-                    }
+  const updatedInventoryLevel = useCallback(() => {
+    inventoryLevel.forEach((inventorylevel) => {
+      const { updated_at, item, category, in_stock } = inventorylevel;
+
+      const inventoryLevelDate = updated_at.toISOString();
+      // let inventoryDate = inventoryLevelDate.toISOString();
+
+      // console.log(inventoryLevelDate.getTime())
+      // console.log(updated_at)
+
+      receipt.forEach((receipts) => {
+        const { updated_at, created_at, line_items } = receipts;
+
+        const receiptsDate = new Date(created_at);
+
+        // console.log(receiptsDate.getTime())
+
+        if (receiptsDate.getTime() > inventoryLevelDate.getTime()) {
+          line_items.map((lineItems) => {
+            const { variant_id, item_name, variant_name, quantity } = lineItems;
+
+            let splitted = variant_name && variant_name.split("/");
+            let name = splitted && splitted[0];
+            // let size = splitted && splitted[1];
+            let updatedQuantity = in_stock - quantity;
+            let list = [
+              ...data,
+              {
+                updated_at: "",
+                item: "",
+                category: "",
+                in_stock: 0,
+                variant_id: "",
+              },
+            ];
+            if (name === item) {
+              // console.log(name + " / " + item)
+              // console.log(lineItems +  " / " + inventorylevel)
+
+              list[index]["updated_at"] = created_at;
+              list[index]["item"] = item;
+              list[index]["category"] = category;
+              list[index]["in_stock"] = updatedQuantity;
+              list[index]["variant_id"] = variant_id;
+
+              // list.push({
+              //   updated_at: created_at,
+              //   item: item,
+              //   category: category,
+              //   in_stock: updatedQuantity,
+              //   variant_id: variant_id,
+              // });
+
+              setData([list]);
+              setIndex((index) => index + 1);
+              // return setData(() => [list]);
+
+              // return {
+              //   updated_at: created_at,
+              //   item: item,
+              //   category: category,
+              //   in_stock: updatedQuantity,
+              //   variant_id: variant_id,
+              // };
+            } else {
+              recipe.map((recipes) => {
+                const { label, ingredients } = recipes;
+
+                if (label === name) {
+                  ingredients.map((ingredient) => {
+                    const { text, weight } = ingredient;
+
+                    inventoryLevel.find((item) => {
+                      if (item.item === text) {
+                        const totalWeight = weight * quantity;
+
+                        list[index]["updated_at"] = created_at;
+                        list[index]["item"] = item;
+                        list[index]["category"] = category;
+                        list[index]["in_stock"] = in_stock - totalWeight;
+                        list[index]["variant_id"] = variant_id;
+
+                        // list.push({
+                        //   updated_at: created_at,
+                        //   item: item,
+                        //   category: category,
+                        //   in_stock: in_stock - totalWeight,
+                        //   variant_id: variant_id,
+                        // });
+                        setIndex((index) => index + 1);
+                        setData([list]);
+                      }
+                    });
                   });
                 }
-               
               });
             }
           });
-        });
-      },
-    [data, index, inventoryLevel, receipt, recipe]) 
+        }
+      });
+    });
+  }, [data, index, inventoryLevel, receipt, recipe]);
   useEffect(() => {
     if (inventoryLevel && receipt) {
       updatedInventoryLevel();
     }
   }, [inventoryLevel, receipt, updatedInventoryLevel]);
 
-  //   console.log(Date.now);
-  //   console.log(filteredItems);
-  //   console.log(receipt);
-
-  // console.log(updatedInventoryLevel);
-  console.log(data);
   // console.log(index);
   // console.log(arr)
 

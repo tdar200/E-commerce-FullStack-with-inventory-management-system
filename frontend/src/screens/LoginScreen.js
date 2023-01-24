@@ -90,7 +90,7 @@ const LoginScreen = ({ location, history }) => {
           </div>
         </div>
 
-        <button type='button' class='login-with-google-btn'>
+        <button type='button' className='login-with-google-btn'>
           <div className='login-with-google-btn-div'></div>
 
           <p style={{ margin: 0, paddingLeft: "1rem" }}>Sign in with Google</p>

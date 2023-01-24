@@ -16,8 +16,6 @@ const ReceiptListScreen = ({ history, match }) => {
 
   const [pageNumber, setPageNumber] = useState(1);
 
-  console.log(receipt);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -85,7 +83,6 @@ const ReceiptListScreen = ({ history, match }) => {
           </Table>
           <Row style={{ display: "grid", justifyContent: "center" }}>
             <Stack spacing={2}>
-              {console.log(page, " pageeeeeeeeeeeeeeeeee")}
               <Pagination
                 count={Number(pages)}
                 page={Number(page)}

@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { LinkContainer, Text } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 import logo from "../../src/BACKYARD-BBQ.svg";
@@ -18,25 +18,29 @@ const Header = () => {
   return (
     <header>
       <Navbar
-        style={{ backgroundColor: "#ed1c24", }}
-        
+        style={{ backgroundColor: "#ed1c24" }}
         variant='dark'
         expand='lg'
-        collapseOnSelect
-      >
-        <Container style={{display: "contents"}}>
+        collapseOnSelect>
+        <Container style={{ display: "contents" }}>
           <LinkContainer to='/'>
             <img
               style={{ height: "80px", width: "200px", cursor: "pointer" }}
               src={logo}
               alt='BACKYARD BBQ RESTAURANT'
-              className="image-media"
+              className='image-media'
             />
           </LinkContainer>
           {/* <Route render={({ history }) => <SearchBox history={history} />} /> */}
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse style={{backgroundColor: "#ed1c24", zIndex:1, transition: "none 0s ease 0s" }} id='basic-navbar-nav'>
-            <Nav style={{textTransform: "uppercase"}} className='ml-auto '>
+          <Navbar.Collapse
+            style={{
+              backgroundColor: "#ed1c24",
+              zIndex: 1,
+              transition: "none 0s ease 0s",
+            }}
+            id='basic-navbar-nav'>
+            <Nav style={{ textTransform: "uppercase" }} className='ml-auto '>
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                   <LinkContainer to='/profile'>
@@ -48,14 +52,13 @@ const Header = () => {
                 </NavDropdown>
               ) : (
                 <LinkContainer to='/login'>
-                  <Nav.Link >
+                  <Nav.Link>
                     <i className='fas fa-user'></i> SIGN IN
                   </Nav.Link>
                 </LinkContainer>
               )}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown  title='ADMIN' id='adminmenu'>
-                  
+                <NavDropdown title='ADMIN' id='adminmenu'>
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
@@ -111,13 +114,11 @@ const Header = () => {
           justifyContent: "center",
           textAlign: "center",
           alignItems: "center",
-        }}
-      >
+        }}>
         <a
           href={"https://goo.gl/maps/SuVkFVGJGHUektEk6"}
           target='_blank'
-          rel='noreferrer'
-        >
+          rel='noreferrer'>
           <i
             style={{
               marginRight: "9px",
@@ -125,16 +126,14 @@ const Header = () => {
               alignSelf: "center",
               fontSize: "27px",
             }}
-            class='fas fa-map-marker-alt'
-          ></i>
+            className='fas fa-map-marker-alt'></i>
           <text
             style={{
               color: "darkorange",
               fontSize: "20px",
               fontWeight: "400",
               letterSpacing: ".05rem",
-            }}
-          >
+            }}>
             Find us on Google Maps
           </text>
         </a>

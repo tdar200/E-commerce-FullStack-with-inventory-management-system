@@ -77,9 +77,6 @@ const RecipeCreateScreen = ({ history }) => {
     }
   }, [history, userInfo, successCreate, dispatch]);
 
-  // console.log(productFiltered)
-  console.log(ingredients);
-
   useMemo(() => {
     if (successFiltered) {
       let filtered = products
@@ -284,8 +281,7 @@ const RecipeCreateScreen = ({ history }) => {
                 type='text'
                 placeholder='Enter Image'
                 value={image}
-                readOnly
-              ></Form.Control>
+                readOnly></Form.Control>
             </Form.Group>
             <h2 style={{ padding: 10 }}>Ingredients</h2>
 
@@ -294,8 +290,7 @@ const RecipeCreateScreen = ({ history }) => {
                 <Row
                   className='create-update'
                   key={index}
-                  style={{ width: "100%", padding: 10 }}
-                >
+                  style={{ width: "100%", padding: 10 }}>
                   <Form.Group
                     as={Col}
                     controlId='Item'
@@ -306,8 +301,7 @@ const RecipeCreateScreen = ({ history }) => {
                       padding: 10,
                       borderRadius: 15,
                       flex: 2,
-                    }}
-                  >
+                    }}>
                     <Form.Label>Ingredient</Form.Label>
                     <Fragment>
                       {filteredCategories[0] &&
@@ -338,16 +332,16 @@ const RecipeCreateScreen = ({ history }) => {
                       alignItems: "center",
                       padding: 10,
                       borderRadius: 15,
-                    }}
-                  >
+                    }}>
                     <Form.Label>Weight (Grams)</Form.Label>
                     <Form.Control
                       name='weight'
                       type='text'
                       placeholder='Enter Weight'
                       value={i.weight}
-                      onChange={(e) => handleInputChange(e, index)}
-                    ></Form.Control>
+                      onChange={(e) =>
+                        handleInputChange(e, index)
+                      }></Form.Control>
                   </Form.Group>
 
                   <Form.Group
@@ -358,8 +352,7 @@ const RecipeCreateScreen = ({ history }) => {
                       alignItems: "center",
                       padding: 10,
                       borderRadius: 15,
-                    }}
-                  >
+                    }}>
                     <Form.Label>Average Cost</Form.Label>
                     <Form.Control
                       name='averageCost'
@@ -367,8 +360,7 @@ const RecipeCreateScreen = ({ history }) => {
                       placeholder='Cost'
                       value={ingredients[index].average_cost}
                       // onChange={() => setTotalCost(sum)}
-                      readOnly
-                    ></Form.Control>
+                      readOnly></Form.Control>
                   </Form.Group>
 
                   <Form.Group
@@ -379,8 +371,7 @@ const RecipeCreateScreen = ({ history }) => {
 
                       borderRadius: 15,
                       flexDirection: "flex-end",
-                    }}
-                  >
+                    }}>
                     <Form.Label>Add/Remove</Form.Label>
                     <div style={{ width: 10, height: 0 }}></div>
                     {ingredients.length - 1 === index && (
@@ -392,8 +383,7 @@ const RecipeCreateScreen = ({ history }) => {
                           marginRight: 5,
                           backgroundColor: "red",
                           border: 0,
-                        }}
-                      >
+                        }}>
                         <i className='fas fa-plus'></i>
                       </Button>
                     )}
@@ -402,8 +392,7 @@ const RecipeCreateScreen = ({ history }) => {
                       <Button
                         className='my-3'
                         onClick={() => handleRemoveClick(index)}
-                        style={{ backgroundColor: "red", border: 0 }}
-                      >
+                        style={{ backgroundColor: "red", border: 0 }}>
                         <i className='fas fa-minus'></i>
                       </Button>
                     )}
@@ -420,8 +409,7 @@ const RecipeCreateScreen = ({ history }) => {
                   alignItems: "flex-end",
                   padding: 10,
                   borderRadius: 15,
-                }}
-              >
+                }}>
                 <Form.Label>Total Cost</Form.Label>
                 <Form.Control
                   name='totalCost'
@@ -429,8 +417,7 @@ const RecipeCreateScreen = ({ history }) => {
                   placeholder='Total Cost'
                   value={totalCost}
                   // onChange={() => setTotalCost(sum)}
-                  readOnly
-                ></Form.Control>
+                  readOnly></Form.Control>
               </Form.Group>
             </Row>
 
@@ -438,8 +425,7 @@ const RecipeCreateScreen = ({ history }) => {
               <Button
                 style={{ backgroundColor: "red", border: 0 }}
                 type='submit'
-                variant='primary'
-              >
+                variant='primary'>
                 Submit
               </Button>
             </Row>

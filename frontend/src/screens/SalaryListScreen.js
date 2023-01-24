@@ -195,7 +195,6 @@ const SalaryListScreen = ({ history, match }) => {
 
       if (returnedValue) {
         let index = returnedValue.salary.length - 1;
-        console.log(returnedValue.salary[index]);
 
         setUpdatedId(() => returnedValue.id_number && returnedValue.id_number);
         setUpdatedJobTitle(() => returnedValue.salary[index].job_title);

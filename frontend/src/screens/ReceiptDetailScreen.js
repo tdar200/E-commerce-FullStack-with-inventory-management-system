@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Row, Col, ListGroup, Card} from "react-bootstrap";
+import { Row, Col, ListGroup, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -15,8 +15,6 @@ const ReceiptDetailScreen = ({ match, history }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  console.log(receiptDetails)
 
   useEffect(() => {
     if (!userInfo) {
@@ -67,8 +65,8 @@ const ReceiptDetailScreen = ({ match, history }) => {
                       <Col md={1}></Col>
                       <Col>{item.variant_name}</Col>
                       <Col md={4}>
-                        {item.quantity} x Rs. {item.price} = 
-                        Rs. {item.quantity * item.price}
+                        {item.quantity} x Rs. {item.price} = Rs.{" "}
+                        {item.quantity * item.price}
                       </Col>
                     </Row>
                   </ListGroup.Item>

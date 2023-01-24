@@ -35,13 +35,10 @@ export const listReceipt =
         },
       };
 
-      console.log(pageNumber)
+      console.log(pageNumber);
 
       if (pageNumber === "All") {
-        const { data } = await axios.get(
-          `/api/receipt?display=All`,
-          config
-        );
+        const { data } = await axios.get(`/api/receipt?display=All`, config);
 
         dispatch({
           type: RECEIPT_LIST_SUCCESS,
@@ -133,8 +130,6 @@ export const listReceiptDetails = (id) => async (dispatch) => {
 export const paidReceipt = (receipt) => async (dispatch) => {
   try {
     dispatch({ type: RECEIPT_PAID_REQUEST });
-
-    console.log(receipt.receiptNumber);
 
     const { data } = await axios.put(
       `/api/receipt/paid?receiptNumber=${receipt.receiptNumber}`,

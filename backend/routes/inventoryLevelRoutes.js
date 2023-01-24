@@ -83,7 +83,6 @@ async function intervalFunction() {
   try {
     (async () => {
       try {
-       
         for (let j = 0; j < receipts.length; j++) {
           let name =
             receipts[j].line_items.variant_name &&
@@ -109,10 +108,7 @@ async function intervalFunction() {
 
           let inventoryLevel = await InventoryLevel.findOne({ item: name });
 
-  
-        
           if (inventoryLevel) {
-   
             let totalQuantity =
               inventoryLevel.in_stock - receipts[j].line_items.quantity;
 
@@ -126,8 +122,6 @@ async function intervalFunction() {
               },
               { useFindAndModify: false }
             );
-
-          
 
             await Receipt.findOneAndUpdate(
               {
@@ -144,7 +138,6 @@ async function intervalFunction() {
             let recipes = await Recipe.findOne({ label: name });
 
             if (recipes) {
-            
               for (let k = 0; k < recipes.ingredients.length; k++) {
                 let inventoryLevelRecipe = await InventoryLevel.findOne({
                   item: recipes.ingredients[k].text,
@@ -163,7 +156,6 @@ async function intervalFunction() {
                   let updateStock =
                     inventoryLevelRecipe.in_stock - totalQuantityRecipe;
 
-               
                   await InventoryLevel.findOneAndUpdate(
                     { item: recipes.ingredients[k].text },
                     {
@@ -174,8 +166,6 @@ async function intervalFunction() {
                     },
                     { useFindAndModify: false }
                   );
-
-                  // console.log(updated);
 
                   await Receipt.findOneAndUpdate(
                     {
@@ -212,8 +202,6 @@ async function intervalFunction() {
             },
             { useFindAndModify: false }
           );
-
-          // console.log(updated)
         }
       } catch (err) {
         console.error(err);
@@ -224,8 +212,6 @@ async function intervalFunction() {
       try {
         for (let i = 0; i < inventory.length; i++) {
           if (inventory[i].updated === false) {
-            // console.log(inventory);
-            // console.log(inventory[i]._id)
             await InventoryLevel.findOneAndUpdate(
               { item: inventory[i].item_name },
               {
@@ -362,12 +348,6 @@ router.route("/").put(
           },
         },
       ]);
-
-      // console.log(id);
-      // console.log(start_date)
-      // console.log(
-      //   inventoryLevelArr[0].salary.monthly_salary !== monthly_salary
-      // );
 
       if (
         inventoryLevelArr[0].salary.monthly_salary === monthly_salary &&

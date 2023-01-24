@@ -21,8 +21,6 @@ const InventoryCreateScreen = ({ history }) => {
   const year = date.getFullYear();
   const todayDate = `${year}-${month}-${day}`;
 
-  console.log(day);
-
   const inventoryCreate = useSelector((state) => state.inventoryCreate);
   const {
     loading: loadingCreate,
@@ -136,25 +134,15 @@ const InventoryCreateScreen = ({ history }) => {
     );
   };
 
-  console.log(paid)
-  console.log(datePaid)
-
-  // console.log(categoryList);
-
   if (!category && categoryList[0]) {
     undefine = categoryList[0].label;
   } else if (category && categoryList) {
     undefine = category;
   }
 
-  // console.log(undefine);
-
   const IL = inventoryLevel
     .filter((items) => items.category === undefine && items)
     .map((items) => ({ label: items.item, value: true }));
-
-  // console.log(category);
-  // console.log(IL);
 
   return (
     <>
@@ -264,8 +252,7 @@ const InventoryCreateScreen = ({ history }) => {
                 placeholder='Enter Vendor'
                 value={vendor}
                 onChange={(e) => setVendor(e.target.value)}
-                required
-              ></Form.Control>
+                required></Form.Control>
             </Form.Group>
 
             <Form.Group controlId='cost'>
@@ -275,22 +262,18 @@ const InventoryCreateScreen = ({ history }) => {
                 placeholder='Enter price'
                 value={cost}
                 onChange={(e) => setCost(e.target.value)}
-                required
-              ></Form.Control>
+                required></Form.Control>
             </Form.Group>
 
-           
-              <Form.Group controlId='size'>
-                <Form.Label>Size</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Enter Size'
-                  value={size}
-                  onChange={(e) => setSize(e.target.value)}
-                  required
-                ></Form.Control>
-              </Form.Group>
-          
+            <Form.Group controlId='size'>
+              <Form.Label>Size</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter Size'
+                value={size}
+                onChange={(e) => setSize(e.target.value)}
+                required></Form.Control>
+            </Form.Group>
 
             <Form.Group controlId='quantity'>
               <Form.Label>Quantity</Form.Label>
@@ -299,8 +282,7 @@ const InventoryCreateScreen = ({ history }) => {
                 placeholder='Enter Quantity'
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
-                required
-              ></Form.Control>
+                required></Form.Control>
             </Form.Group>
 
             <Form.Group controlId='totalCost'>
@@ -310,8 +292,7 @@ const InventoryCreateScreen = ({ history }) => {
                 placeholder='Total'
                 required
                 readOnly
-                value={totalCost}
-              ></Form.Control>
+                value={totalCost}></Form.Control>
             </Form.Group>
 
             <fieldset>
@@ -346,8 +327,7 @@ const InventoryCreateScreen = ({ history }) => {
                   placeholder='Enter Date'
                   value={datePaid}
                   required
-                  onChange={(e) => setDatePaid(e.target.value)}
-                ></Form.Control>
+                  onChange={(e) => setDatePaid(e.target.value)}></Form.Control>
               </Form.Group>
             )}
 

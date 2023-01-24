@@ -4,8 +4,6 @@ function getConnectionsNumber() {
   return mongoose.connection.base.connections.length;
 }
 
-console.log(getConnectionsNumber());
-
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {

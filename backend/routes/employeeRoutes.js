@@ -44,13 +44,6 @@ router.route("/:id").put(
     const employee = await Employee.findById(req.params.id);
     let index = employee.salary.length - 1;
 
-    // console.log(req.body)
-
-    console.log(
-      Number(salary[0].monthly_salary) ===
-        Number(employee.salary[index].monthly_salary)
-    );
-
     if (employee.salary[index].monthly_salary === salary[0].monthly_salary) {
       const updatedSalary = await Employee.findOneAndUpdate(
         {
@@ -85,9 +78,6 @@ router.route("/:id").put(
 
       res.json(updatedSalary);
     } else if (employee.salary[0].monthly_salary !== salary[0].monthly_salary) {
-      console.log(salary[0].salary_id);
-      console.log(salary[0].start_date);
-
       const updatedEndDate = await Employee.findOneAndUpdate(
         {
           "salary._id": salary[0].salary_id,
@@ -100,8 +90,6 @@ router.route("/:id").put(
         { useFindAndModify: false }
       );
 
-      // console.log(updatedEndDate)
-
       const updatedEmployee = await Employee.findOneAndUpdate(
         {
           _id: req.params.id,
@@ -113,9 +101,6 @@ router.route("/:id").put(
         },
         { useFindAndModify: false }
       );
-
-      // console.log(updatedEndDate)
-      // console.log(updatedEmployee)
     }
   })
 );

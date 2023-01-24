@@ -33,29 +33,23 @@ import SalaryListScreen from "./screens/SalaryListScreen";
 import FinancialSummaryScreen from "./screens/FinancialSummaryScreen";
 import BillScreen from "./screens/BillScreen";
 
-const App = (props) => {
-  console.log(props);
-  // const location = useLocation();
-  // const paramshook = useParams();
-
-  // console.log({ location }, "locaaaaaaaaaaaaaaaaaaaaaaaaation");
-  // console.log(paramshook && paramshook);
-
+const App = () => {
   const withHeader = () => {
     return (
-      <div>
+      <>
         <Header />
         <main style={{ background: "#fff7f7" }} className='py-3'>
-          <Switch>
-            <Route path='/page/:pageNumber' component={HomeScreen} exact />
-            <Route
-              path='/search/:keyword/page/:pageNumber'
-              component={HomeScreen}
-              exact
-            />
-            <Route path='/search/:keyword' component={HomeScreen} exact />
-            <Route path='/' component={HomeScreen} exact />
-            <Container>
+          <Container>
+            <Switch>
+              <Route path='/page/:pageNumber' component={HomeScreen} exact />
+              <Route
+                path='/search/:keyword/page/:pageNumber'
+                component={HomeScreen}
+                exact
+              />
+              <Route path='/search/:keyword' component={HomeScreen} exact />
+              <Route path='/' component={HomeScreen} exact />
+
               {/* <Route path="/" render={ ( props ) => ( props.location.pathname !== "/") && <Header /> }> */}
               <Route path='/products' component={ProductsScreen} />
               <Route path='/login' component={LoginScreen} />
@@ -115,18 +109,18 @@ const App = (props) => {
                 component={ProductListScreen}
                 exact
               />
-            </Container>
-          </Switch>
+            </Switch>
+          </Container>
         </main>
 
         <Footer />
-      </div>
+      </>
     );
   };
 
   const addedCartButton = () => {
     return (
-      <div>
+      <>
         <Header />
         <main className='py-3'>
           <Switch>
@@ -137,7 +131,7 @@ const App = (props) => {
         </main>
         <CheckoutButtonBar />
         <Footer />
-      </div>
+      </>
     );
   };
 

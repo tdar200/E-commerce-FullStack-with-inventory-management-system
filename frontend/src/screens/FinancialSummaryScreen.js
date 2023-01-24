@@ -1,41 +1,37 @@
-import React, { useEffect, useState, useCal } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button, Row, Col, Modal, Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { DateRangePicker } from "react-date-range";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-// import Paginate from "../components/Paginate";
 import {
   groupInventory,
   listDatesInventory,
 } from "../actions/inventoryActions";
 import { listReceipt } from "../actions/receiptActions";
-// import { INVENTORY_CREATE_RESET } from "../constants/productConstants";
-// import { listDatesInventory } from "../actions/inventoryActions";
 import "../css/Search.css";
 
-const SalaryListScreen = ({ history, match }) => {
+const FinancialSummaryScreen = (props) => {
   const dispatch = useDispatch();
 
+  const history = props.history;
+
   const inventoryGroup = useSelector((state) => state.inventoryGroup);
-  const { loading, error, success, inventory } = inventoryGroup;
+  const { loading, success, inventory } = inventoryGroup;
 
   const receiptList = useSelector((state) => state.receiptList);
   const {
-    loading: receiptLoading,
-    error: errorReceipt,
-    success: receiptSuccess,
+    // loading: receiptLoading,
+    // error: errorReceipt,
+    // success: receiptSuccess,
     receipt,
   } = receiptList;
 
   const inventoryDatesList = useSelector((state) => state.inventoryDates);
   const {
     loading: loadingDates,
-    error: errorDates,
-    inventoryDates,
+    // error: errorDates,
+    // inventoryDates,
   } = inventoryDatesList;
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -73,8 +69,8 @@ const SalaryListScreen = ({ history, match }) => {
   };
 
   let totalSale = 0;
-  console.log({ receipt });
-  receipt.length > 0 &&
+
+  receipt?.length > 0 &&
     receipt?.map((x) => {
       if (x._id === "SALE" || x._id === null) {
         totalSale = totalSale + x.Total;
@@ -91,10 +87,6 @@ const SalaryListScreen = ({ history, match }) => {
           <h1>Financial Summary</h1>
         </Col>
       </Row>
-
-      {console.log(
-        loadingDates && !loading && inventory && totalSale && expectedCash
-      )}
       {loadingDates && !loading && inventory && totalSale && expectedCash ? (
         <>
           <div className='banner_search'>
@@ -149,7 +141,6 @@ const SalaryListScreen = ({ history, match }) => {
               </tbody>
             </>
           </Table>
-          {/* <Paginate pages={pages} page={page} isAdmin={true} /> */}
         </>
       ) : (
         <>
@@ -182,32 +173,12 @@ const SalaryListScreen = ({ history, match }) => {
                 <th>EDIT/DELETE</th>
               </tr>
             </thead>
-            <>
-              {
-                //   <tbody key={inventory._id}>
-                //     <tr>
-                //       <td>{inventory.edited_by}</td>
-                //       {/* <td>{inventory.createdAt.slice(0, 10)}</td> */}
-                //       <td>{inventory.item_name}</td>
-                //       <td>{inventory.monthly_salary}</td>
-                //       <td>{inventory.paid && "PAID"}</td>
-                //       <td>{inventory.total_cost}</td>
-                //       {/* <td>{inventory.date_paid.slice(0, 10)}</td> */}
-                //       <td>
-                //         <Button variant='light' className='btn-sm'>
-                //           <i className='fas fa-edit'></i>
-                //         </Button>
-                //       </td>
-                //     </tr>
-                //   </tbody>
-              }
-            </>
+            <></>
           </Table>
-          {/* <Paginate pages={pages} page={page} isAdmin={true} /> */}
         </>
       )}
     </>
   );
 };
 
-export default SalaryListScreen;
+export default FinancialSummaryScreen;

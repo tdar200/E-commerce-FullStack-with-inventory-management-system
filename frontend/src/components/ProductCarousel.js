@@ -26,24 +26,17 @@ const ProductCarousel = ({ history }) => {
   const productTopRated = useSelector((state) => state.productTopRated);
   const { loading, error, products } = productTopRated;
 
-  console.log(products);
-
   useEffect(() => {
     dispatch(listTopProducts());
   }, [dispatch]);
-
- 
 
   return loading ? (
     <Loader />
   ) : error ? (
     <Message variant='danger'>{error}</Message>
   ) : (
-       
-<div>
-
-</div>
-  )
+    <div></div>
+  );
 };
 
 export default ProductCarousel;

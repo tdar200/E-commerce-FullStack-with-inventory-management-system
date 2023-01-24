@@ -46,8 +46,6 @@ const PlaceOrderScreen = ({ history }) => {
     // eslint-disable-next-line
   }, [history, success]);
 
-  console.log(cart)
-
   const placeOrderHandler = () => {
     dispatch(
       createOrder({
@@ -155,8 +153,7 @@ const PlaceOrderScreen = ({ history }) => {
                   type='button'
                   className='btn-block'
                   disabled={cart.cartItems === 0}
-                  onClick={placeOrderHandler}
-                >
+                  onClick={placeOrderHandler}>
                   Place Order
                 </Button>
               </ListGroup.Item>

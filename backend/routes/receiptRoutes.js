@@ -39,8 +39,6 @@ async function loop() {
           let duplicate = await Receipt.find({
             receipt_number: data.receipts[i].receipt_number,
           });
-
-          console.log(duplicate);
           if (duplicate.length === 0) {
             await Receipt.create(data.receipts[i]);
           }
@@ -133,8 +131,6 @@ router.route("/").put(
       receipt_number: receiptNumber,
     });
 
-    // console.log(receipt === {})
-
     if (receipt && receipt.receipt_number === receiptNumber) {
       await Receipt.findOneAndUpdate(
         { receipt_number: receiptNumber },
@@ -147,8 +143,6 @@ router.route("/").put(
       );
     } else {
       try {
-        console.log(receiptNumber);
-
         const config = {
           headers: {
             Authorization: `Bearer ${process.env.LOYVERSE_TOKEN}`,
@@ -204,55 +198,5 @@ router.route("/remove").put(
     );
   })
 );
-
-// router.route("/getAll").get(
-//   asyncHandler(async(req,res) => {
-
-//     try {
-//       const config = {
-//         headers: {
-//           Authorization: `Bearer ${process.env.LOYVERSE_TOKEN}`,
-//           "Content-Type": "application/json",
-//           Origin: "*",
-//         },
-//       };
-//       const { data } = await axios.get(
-//         `https://api.loyverse.com/v1.0/receipts?limit=250`,
-//         config
-//       );
-
-//       // console.log(data)
-
-//       let dataArr = []
-//       let cursor = data.cursor
-//       let index = 0
-
-//       // console.log(cursor)
-
-//       console.log(dataArr)
-
-//       // (async ()=>{
-//         while(cursor !== 0) {
-//           const { data } = await axios.get(
-//             `https://api.loyverse.com/v1.0/receipts?cursor=${cursor}&limit=250`,
-//             config
-//           )
-//           cursor = data.cursor ? data.cursor : 0
-//           index = index + 1
-//           // dataArr.push(data.receipts)
-//           // console.log(data)
-//           await Receipt.insertMany(data.receipts)
-//         }
-//       //  })();
-
-//       // res.json(dataArr)
-//     }
-//     catch(error) {
-
-//       console.error(error)
-//     }
-
-//   })
-// )
 
 module.exports = router;

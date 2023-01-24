@@ -89,8 +89,7 @@ const InventoryListScreen = ({ history, match }) => {
             bottom: 0,
             alignContent: "flex-end",
             alignItems: "flex-end",
-          }}
-        >
+          }}>
           <h5>Total Rs : {TotalCost.toLocaleString()}</h5>
         </Row>
       );
@@ -106,7 +105,6 @@ const InventoryListScreen = ({ history, match }) => {
       );
     }
   };
-
 
   return (
     <>
@@ -133,16 +131,14 @@ const InventoryListScreen = ({ history, match }) => {
               <div className='search'>
                 <DateRangePicker
                   ranges={[selectionRange]}
-                  onChange={handleSelect}
-                ></DateRangePicker>
+                  onChange={handleSelect}></DateRangePicker>
                 <Button onClick={handleSubmit}>Search Inventory</Button>
               </div>
             )}
             <Button
               className='banner_searchButton'
               variant='outlined'
-              onClick={() => setShowSearch(!showSearch)}
-            >
+              onClick={() => setShowSearch(!showSearch)}>
               Search Date
             </Button>
           </div>
@@ -177,11 +173,13 @@ const InventoryListScreen = ({ history, match }) => {
                         <td>{inventory.item_cost}</td>
                         <td>{inventory.total_cost}</td>
                         <td>{inventory.paid && "PAID"}</td>
-                        <td>{inventory.date_paid && inventory.date_paid.slice(0, 10)}</td>
+                        <td>
+                          {inventory.date_paid &&
+                            inventory.date_paid.slice(0, 10)}
+                        </td>
                         <td>
                           <LinkContainer
-                            to={`/admin/inventory/${inventory._id}/edit`}
-                          >
+                            to={`/admin/inventory/${inventory._id}/edit`}>
                             <Button variant='light' className='btn-sm'>
                               <i className='fas fa-edit'></i>
                             </Button>
@@ -189,8 +187,7 @@ const InventoryListScreen = ({ history, match }) => {
                           <Button
                             variant='danger'
                             className='btn-sm'
-                            onClick={() => deleteHandler(inventory._id)}
-                          >
+                            onClick={() => deleteHandler(inventory._id)}>
                             <i className='fas fa-trash'></i>
                           </Button>
                         </td>
@@ -210,16 +207,14 @@ const InventoryListScreen = ({ history, match }) => {
               <div className='search'>
                 <DateRangePicker
                   ranges={[selectionRange]}
-                  onChange={handleSelect}
-                ></DateRangePicker>
+                  onChange={handleSelect}></DateRangePicker>
                 <Button onClick={handleSubmit}>Search Inventory</Button>
               </div>
             )}
             <Button
               className='banner_searchButton'
               variant='outlined'
-              onClick={() => setShowSearch(!showSearch)}
-            >
+              onClick={() => setShowSearch(!showSearch)}>
               Search Date
             </Button>
           </div>
@@ -254,11 +249,13 @@ const InventoryListScreen = ({ history, match }) => {
                         <td>{inventory.item_cost}</td>
                         <td>{inventory.total_cost}</td>
                         <td>{inventory.paid && "PAID"}</td>
-                        <td>{inventory.date_paid && inventory.date_paid.slice(0, 10)}</td>
+                        <td>
+                          {inventory.date_paid &&
+                            inventory.date_paid.slice(0, 10)}
+                        </td>
                         <td>
                           <LinkContainer
-                            to={`/admin/inventory/${inventory._id}/edit`}
-                          >
+                            to={`/admin/inventory/${inventory._id}/edit`}>
                             <Button variant='light' className='btn-sm'>
                               <i className='fas fa-edit'></i>
                             </Button>
@@ -266,8 +263,7 @@ const InventoryListScreen = ({ history, match }) => {
                           <Button
                             variant='danger'
                             className='btn-sm'
-                            onClick={() => deleteHandler(inventory._id)}
-                          >
+                            onClick={() => deleteHandler(inventory._id)}>
                             <i className='fas fa-trash'></i>
                           </Button>
                         </td>

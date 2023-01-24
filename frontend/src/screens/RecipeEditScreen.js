@@ -89,7 +89,6 @@ const RecipeEditScreen = ({ history, match }) => {
     ingredients,
     setIngredients,
   ]);
-  // console.log(success);
 
   useMemo(() => {
     if (successLevelList) {
@@ -153,11 +152,13 @@ const RecipeEditScreen = ({ history, match }) => {
 
   useMemo(() => {
     if (ingredients) {
-      setTotalCost(
-        ingredients.reduce((a, b) => {
-          return a + b.average_cost;
-        }, 0)
-      );
+      const totalCost = ingredients.reduce((a, b, index) => {
+        const averageIngredientCost = b.average_cost ?? 0;
+
+        return Number(a) + averageIngredientCost;
+      }, 0);
+
+      setTotalCost(totalCost);
     }
   }, [ingredients]);
 
@@ -400,7 +401,7 @@ const RecipeEditScreen = ({ history, match }) => {
                           name='sellingPrice'
                           type='text'
                           placeholder='Selling Price'
-                          value={productDetail.variants.default_price}
+                          value={productDetail?.variants?.default_price}
                           readOnly></Form.Control>
                       </Form.Group>
                     )}
@@ -419,6 +420,48 @@ const RecipeEditScreen = ({ history, match }) => {
                         type='text'
                         placeholder='Total Cost'
                         value={totalCost ? totalCost.toFixed(2) : 0}
+                        readOnly></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group
+                      as={Col}
+                      controlId='profit'
+                      style={{
+                        flex: 1,
+                        padding: 10,
+                        borderRadius: 15,
+                      }}>
+                      <Form.Label>Profit</Form.Label>
+                      <Form.Control
+                        name='profit'
+                        type='text'
+                        placeholder='Gross Profit'
+                        value={(
+                          +productDetail?.variants?.default_price -
+                          Number(totalCost)
+                        ).toFixed(2)}
+                        readOnly></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group
+                      as={Col}
+                      controlId='margin'
+                      style={{
+                        flex: 1,
+                        padding: 10,
+                        borderRadius: 15,
+                      }}>
+                      <Form.Label>Margin</Form.Label>
+                      <Form.Control
+                        name='margin'
+                        type='text'
+                        placeholder='Margin'
+                        value={`${(
+                          ((+productDetail?.variants?.default_price -
+                            Number(totalCost)) /
+                            +productDetail?.variants?.default_price) *
+                          100
+                        ).toFixed(2)}%`}
                         readOnly></Form.Control>
                     </Form.Group>
                   </Row>

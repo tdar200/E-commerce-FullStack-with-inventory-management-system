@@ -97,12 +97,6 @@ const HomeScreen = ({ match, history }) => {
           <Message variant='danger'>{error} </Message>
         ) : (
           <div className='carousel-slider'>
-            {/* {products.map((product, idx) => (
-              <Col key={idx} sm={16} md={6} lg={4} xl={3}>
-                <Product product={product} />
-              </Col>
-            ))} */}
-
             <ItemsCarousel
               requestToChangeActive={setIndex}
               activeItemIndex={index}
@@ -111,12 +105,12 @@ const HomeScreen = ({ match, history }) => {
               leftChevron={
                 <i
                   style={{ color: "black" }}
-                  class='fas fa-chevron-circle-left'></i>
+                  className='fas fa-chevron-circle-left'></i>
               }
               rightChevron={
                 <i
                   style={{ color: "black" }}
-                  class='fas fa-chevron-circle-right'></i>
+                  className='fas fa-chevron-circle-right'></i>
               }
               outsideChevron
               chevronWidth={40}

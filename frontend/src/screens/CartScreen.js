@@ -46,8 +46,7 @@ const CartScreen = ({ match, location, history }) => {
           fontFamily: "Montserrat,sans-serif",
           fontWeight: "900",
           color: "#4a4a4a",
-        }}
-      >
+        }}>
         {" "}
         Cart
       </h1>
@@ -69,8 +68,7 @@ const CartScreen = ({ match, location, history }) => {
                     padding: "10px",
                     alignItems: "center",
                     textAlign: "center",
-                  }}
-                >
+                  }}>
                   <Col md={2}>
                     <Link to={`/product/${item.product}`}>
                       <Image
@@ -81,8 +79,7 @@ const CartScreen = ({ match, location, history }) => {
                         }}
                         src={item.image}
                         fluid
-                        rounded
-                      ></Image>
+                        rounded></Image>
                     </Link>
                   </Col>
                   <Col>x {item.qty}</Col>
@@ -128,8 +125,7 @@ const CartScreen = ({ match, location, history }) => {
                     <Button
                       type='button'
                       variant='light'
-                      onClick={() => removeFromCartHandler(item.vid)}
-                    >
+                      onClick={() => removeFromCartHandler(item.vid)}>
                       <i className='fas fa-trash' />
                     </Button>
                   </Col>
@@ -146,19 +142,18 @@ const CartScreen = ({ match, location, history }) => {
             display: "flex",
             alignSelf: "center",
             justifyContent: "center",
-            margin: "2rem"
-          }}
-        >
+            margin: "2rem",
+          }}>
           <Row style={{ border: "1px solid rgba(0, 0, 0, 0.125" }}>
-            <h3 style={{marginLeft: "1rem"}}>
+            <h3 style={{ marginLeft: "1rem" }}>
               Subtotal:{" "}
               {
-                <text>
+                <p>
                   Rs.
                   {cartItems
                     .reduce((acc, item) => acc + item.qty * item.price, 0)
                     .toFixed(0)}
-                </text>
+                </p>
               }
               {/* ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) */}
             </h3>
