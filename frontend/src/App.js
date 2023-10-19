@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Header from "./components/Header";
@@ -32,6 +32,20 @@ import InventoryLevelListScreen from "./screens/InventoryLevelListScreen";
 import SalaryListScreen from "./screens/SalaryListScreen";
 import FinancialSummaryScreen from "./screens/FinancialSummaryScreen";
 import BillScreen from "./screens/BillScreen";
+
+const LoadingWrapper = ({ children }) => {
+  const [loadingTest, setLoadingTest] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoadingTest(false), 5000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  return loadingTest ? <div>LOADING....</div> : children;
+};
 
 const App = () => {
   const withHeader = () => {
@@ -136,12 +150,16 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/cart/:id?' component={addedCartButton} />
-        <Route path='/' component={withHeader} />
-      </Switch>
-    </Router>
+    <>
+      {/* <LoadingWrapper> */}
+      <Router>
+        <Switch>
+          <Route exact path='/cart/:id?' component={addedCartButton} />
+          <Route path='/' component={withHeader} />
+        </Switch>
+      </Router>
+      {/* </LoadingWrapper> */}
+    </>
   );
 };
 

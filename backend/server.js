@@ -13,7 +13,7 @@ dotenv.config();
 connectDB();
 
 app.use(cors());
-app.options("*", cors());
+// app.options("*", cors());
 
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -63,7 +63,7 @@ app.get("/", (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = 6000;
+const PORT = 5000;
 
 app.listen(
   PORT,

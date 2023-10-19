@@ -39,6 +39,8 @@ const RecipeEditScreen = ({ history, match }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  console.log({ recipe });
+
   const [label, setLabel] = useState({});
   const [image, setImage] = useState("");
   const [ingredients, setIngredients] = useState([
@@ -108,6 +110,8 @@ const RecipeEditScreen = ({ history, match }) => {
             return item;
         })
         .map((item) => {
+          (item.item === "Tomato" || item.item === "Chicken") &&
+            console.log({ filtered: item });
           return {
             value: true,
             label: item.item,
@@ -121,12 +125,13 @@ const RecipeEditScreen = ({ history, match }) => {
     }
   }, [inventoryLevel, successLevelList]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (success && filteredCategories[0] && ingredients.length <= 1) {
       let list = recipe.ingredients.map((items, idx) => {
         let averageCost = filteredCategories
           .filter((item) => items.text === item.label)
           .map((i) => {
+            console.log({ i, items });
             return {
               average_cost: i.average_cost
                 ? (i.average_cost / 1000) * items.weight

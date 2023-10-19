@@ -93,6 +93,7 @@ export const salaryInventoryLevel = () => async (dispatch, getState) => {
 };
 
 export const groupedInventoryLevel = () => async (dispatch, getState) => {
+  console.log("does this even hit");
   try {
     dispatch({ type: INVENTORYLEVEL_GROUPED_REQUEST });
 
@@ -106,6 +107,8 @@ export const groupedInventoryLevel = () => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.get(`/api/inventoryLevel/grouped`, config);
+
+    console.log({ data });
 
     dispatch({
       type: INVENTORYLEVEL_GROUPED_SUCCESS,

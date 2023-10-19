@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,10 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 // import Paginate from "../components/Paginate";
 import { createInventory } from "../actions/inventoryActions";
-import { listInventoryLevel } from "../actions/inventoryLevelActions";
+import {
+  listInventoryLevel,
+  groupedInventoryLevel,
+} from "../actions/inventoryLevelActions";
 import { INVENTORY_CREATE_RESET } from "../constants/inventoryConstants";
 import Select from "react-select";
 
@@ -24,9 +27,12 @@ const InventoryCreateScreen = ({ history }) => {
   const inventoryCreate = useSelector((state) => state.inventoryCreate);
   const {
     loading: loadingCreate,
+
     error: errorCreate,
     success: successCreate,
   } = inventoryCreate;
+
+  // console.log({ inventoryCreate });
 
   const inventoryLevelList = useSelector((state) => state.inventoryLevelList);
   const {
@@ -36,32 +42,53 @@ const InventoryCreateScreen = ({ history }) => {
     inventoryLevel,
   } = inventoryLevelList;
 
+  useEffect(() => {
+    dispatch(groupedInventoryLevel());
+  }, []);
+
+  const inventoryLevelGrouped = useSelector(
+    (state) => state.inventoryLevelGrouped
+  );
+
+  // console.log({ inventoryLevelGrouped });
+
   // console.log(inventoryCategory);
 
+  const inventoryCategory = useSelector((state) => state);
+
+  // console.log({ inventoryCategory });
+
   const userLogin = useSelector((state) => state.userLogin);
+
   const { userInfo } = userLogin;
 
   const [user, setUser] = useState(userInfo);
 
-  const CL = inventoryLevel.map((item) => {
+  const CL = inventoryLevel?.map((item) => {
     return item.category;
   });
 
-  const remove_duplicates = (arr) => {
-    var obj = {};
-    var ret_arr = [];
-    for (var i = 0; i < arr.length; i++) {
-      obj[arr[i]] = true;
-    }
-    for (var key in obj) {
-      ret_arr.push({ label: key, value: true });
-    }
-    return ret_arr;
-  };
+  const categoryList = useMemo(() => {
+    const remove_duplicates = (arr) => {
+      var obj = {};
+      var ret_arr = [];
+      for (var i = 0; i < arr.length; i++) {
+        obj[arr[i]] = true;
+      }
+      for (var key in obj) {
+        ret_arr.push({ label: key, value: true });
+      }
+      return ret_arr;
+    };
+    const list = remove_duplicates(CL).sort((a, b) =>
+      a.label.localeCompare(b.label)
+    );
 
-  const categoryList = remove_duplicates(CL);
+    return list;
+  }, [CL]);
+  // console.log({ categoryList });
 
-  const [category, setCategory] = useState(categoryList[0]);
+  const [category, setCategory] = useState();
   const [name, setName] = useState("");
   const [cost, setCost] = useState(0);
   const [size, setSize] = useState(0);
@@ -70,6 +97,8 @@ const InventoryCreateScreen = ({ history }) => {
   const [paid, setPaid] = useState(true);
   const [datePaid, setDatePaid] = useState(todayDate);
   const [vendor, setVendor] = useState("");
+
+  console.log({ category });
 
   // console.log(datePaid);
 
@@ -134,15 +163,15 @@ const InventoryCreateScreen = ({ history }) => {
     );
   };
 
-  if (!category && categoryList[0]) {
-    undefine = categoryList[0].label;
+  if (!category && categoryList?.[0]) {
+    undefine = categoryList?.[0].label;
   } else if (category && categoryList) {
     undefine = category;
   }
 
   const IL = inventoryLevel
-    .filter((items) => items.category === undefine && items)
-    .map((items) => ({ label: items.item, value: true }));
+    ?.filter((items) => items.category === undefine && items)
+    ?.map((items) => ({ label: items.item, value: true }));
 
   return (
     <>
@@ -173,7 +202,7 @@ const InventoryCreateScreen = ({ history }) => {
             <Form.Group controlId='category'>
               <Form.Label>Category</Form.Label>
 
-              {categoryList[0] && (
+              {categoryList?.[0] && (
                 <Select
                   className='basic-single'
                   classNamePrefix='select'
@@ -185,6 +214,9 @@ const InventoryCreateScreen = ({ history }) => {
                   options={categoryList}
                   name='products'
                   onChange={(e) => setCategory(e.label)}
+                  value={categoryList.find(
+                    (option) => option.label === category
+                  )}
                   required
                 />
               )}
@@ -225,14 +257,14 @@ const InventoryCreateScreen = ({ history }) => {
               ></Form.Control>
             </Form.Group> */}
 
-            {category && (
+            {
               <Form.Group controlId='category'>
                 <Form.Label>Name</Form.Label>
                 <Select
                   className='basic-single'
                   classNamePrefix='select'
                   // defaultValue={}
-                  isDisabled={false}
+                  isDisabled={!category && true}
                   isLoading={false}
                   isClearable={false}
                   isRtl={false}
@@ -243,7 +275,7 @@ const InventoryCreateScreen = ({ history }) => {
                   required
                 />
               </Form.Group>
-            )}
+            }
 
             <Form.Group controlId='vendor'>
               <Form.Label>Vendor</Form.Label>

@@ -79,8 +79,8 @@ const InventoryListScreen = ({ history, match }) => {
   const reduceTotalCost = () => {
     if (loadingDates && !loading) {
       const TotalCost = inventory
-        .map((items) => items.total_cost)
-        .reduce((a, b) => a + b, 0);
+        ?.map((items) => items.total_cost)
+        ?.reduce((a, b) => a + b, 0);
       return (
         <Row
           style={{
@@ -90,7 +90,7 @@ const InventoryListScreen = ({ history, match }) => {
             alignContent: "flex-end",
             alignItems: "flex-end",
           }}>
-          <h5>Total Rs : {TotalCost.toLocaleString()}</h5>
+          <h5>Total Rs : {TotalCost?.toLocaleString()}</h5>
         </Row>
       );
     } else if (!loadingDates) {

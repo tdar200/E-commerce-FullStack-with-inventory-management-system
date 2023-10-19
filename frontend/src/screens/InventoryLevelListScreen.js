@@ -24,7 +24,7 @@ const InventoryLevelListScreen = ({ history }) => {
   );
   const {
     loading: loadingInventoryLevel,
-  
+
     inventoryLevelGrouped,
   } = inventoryLevelGroups;
 
@@ -32,10 +32,7 @@ const InventoryLevelListScreen = ({ history }) => {
   const { loading, inventoryLevel } = inventoryLevels;
 
   const inventoryCosts = useSelector((state) => state.inventoryCost);
-  const {
-    loading: loadingCost,
-    inventoryCost,
-  } = inventoryCosts;
+  const { loading: loadingCost, inventoryCost } = inventoryCosts;
 
   // console.log(inventoryCost);
 
@@ -69,9 +66,9 @@ const InventoryLevelListScreen = ({ history }) => {
           {/* <TotalStock/> */}
         </Col>
       </Row>
-      { loadingInventoryLevel && loading && loadingCost ? 
+      {loadingInventoryLevel && loading && loadingCost ? (
         <Loader />
-       : (
+      ) : (
         <>
           {/* <Table striped bordered hover responsive className='table-sm'> */}
           {/* <thead>
@@ -102,19 +99,17 @@ const InventoryLevelListScreen = ({ history }) => {
                 </th>
               </tr>
             </thead>
-            {inventoryLevelGrouped.map((inventory, idx) => {
+            {inventoryLevelGrouped?.map((inventory, idx) => {
               return (
                 <tbody style={{ backgroundColor: "white" }} key={idx}>
                   <tr style={{ flex: 1, backgroundColor: "white" }}>
                     <Accordion
-                      style={{ width: "100%", backgroundColor: "white" }}
-                    >
+                      style={{ width: "100%", backgroundColor: "white" }}>
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls='panel1c-content'
                         id='panel1c-header'
-                        style={{ width: "100%" }}
-                      >
+                        style={{ width: "100%" }}>
                         <h6>{inventory._id}</h6>
                       </AccordionSummary>
 
@@ -123,8 +118,7 @@ const InventoryLevelListScreen = ({ history }) => {
                           bordered
                           hover
                           variant='light'
-                          style={{ width: "100%" }}
-                        >
+                          style={{ width: "100%" }}>
                           <thead>
                             <tr>
                               <th>LAST UPDATED</th>
@@ -135,16 +129,17 @@ const InventoryLevelListScreen = ({ history }) => {
                             </tr>
                           </thead>
                           {inventoryLevel &&
-                            inventoryLevel.map((items, idx) => {
+                            inventoryLevel?.map((items, idx) => {
                               // console.log(items)
                               if (items.category === inventory._id) {
                                 return (
                                   <tbody key={idx}>
                                     <tr>
                                       <td>
-                                        {items.updated_at && new Date(items.updated_at)
-                                          .toISOString()
-                                          .slice(0, 10)}
+                                        {items.updated_at &&
+                                          new Date(items.updated_at)
+                                            .toISOString()
+                                            .slice(0, 10)}
                                       </td>
                                       <td>{items.item}</td>
                                       <td>{items.in_stock}</td>
