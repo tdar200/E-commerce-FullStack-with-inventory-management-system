@@ -98,8 +98,6 @@ const InventoryCreateScreen = ({ history }) => {
   const [datePaid, setDatePaid] = useState(todayDate);
   const [vendor, setVendor] = useState("");
 
-  console.log({ category });
-
   // console.log(datePaid);
 
   let undefine;

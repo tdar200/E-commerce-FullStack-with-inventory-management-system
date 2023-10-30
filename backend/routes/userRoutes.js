@@ -43,8 +43,6 @@ router.post(
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    console.log({ user, email });
-
     if (user && (await user.matchPassword(password))) {
       res.json({
         _id: user._id,

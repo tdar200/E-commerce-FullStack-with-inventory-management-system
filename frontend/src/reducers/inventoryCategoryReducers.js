@@ -11,7 +11,6 @@ export const inventoryCategoryListReducer = (
   state = { loading: true, inventoryCategory: [] },
   action
 ) => {
-  console.log({ action });
   switch (action.type) {
     case INVENTORYCATEGORY_LIST_REQUEST:
       return { loading: true, inventoryCategory: [] };

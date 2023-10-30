@@ -22,21 +22,14 @@ const InventoryLevelListScreen = ({ history }) => {
   const inventoryLevelGroups = useSelector(
     (state) => state.inventoryLevelGrouped
   );
-  const {
-    loading: loadingInventoryLevel,
-
-    inventoryLevelGrouped,
-  } = inventoryLevelGroups;
+  const { loading: loadingInventoryLevel, inventoryLevelGrouped } =
+    inventoryLevelGroups;
 
   const inventoryLevels = useSelector((state) => state.inventoryLevelList);
   const { loading, inventoryLevel } = inventoryLevels;
 
   const inventoryCosts = useSelector((state) => state.inventoryCost);
   const { loading: loadingCost, inventoryCost } = inventoryCosts;
-
-  // console.log(inventoryCost);
-
-  // console.log(inventoryLevel)
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -55,8 +48,6 @@ const InventoryLevelListScreen = ({ history }) => {
   //   item_name: item._id,
   //   average_cost: item.TotalCost / item.TotalQuantity,
   // }));
-
-  // console.log(inventoryLevel)
 
   return (
     <>

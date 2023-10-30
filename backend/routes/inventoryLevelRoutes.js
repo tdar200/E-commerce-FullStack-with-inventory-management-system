@@ -9,243 +9,246 @@ const protect = require("../middleware/authMiddleware");
 const admin = require("../middleware/authMiddleware");
 const ObjectId = require("mongodb").ObjectId;
 
-// async function intervalFunction() {
-//   const date = new Date();
-//   const today = new Date().toISOString();
-//   const last = new Date(
-//     date.getTime() - 30 * 24 * 60 * 60 * 1000
-//   ).toISOString();
+async function intervalFunction() {
+  const date = new Date();
+  const today = new Date().toISOString();
+  const last = new Date(
+    date.getTime() - 30 * 24 * 60 * 60 * 1000
+  ).toISOString();
 
-//   let receipts = await Receipt.aggregate([
-//     {
-//       $unwind: {
-//         path: "$line_items",
-//         preserveNullAndEmptyArrays: false,
-//       },
-//     },
-//     {
-//       $match: {
-//         "line_items.update": false,
-//       },
-//     },
-//     {
-//       $limit: 250,
-//     },
-//   ]);
+  let receipts = await Receipt.aggregate([
+    {
+      $unwind: {
+        path: "$line_items",
+        preserveNullAndEmptyArrays: false,
+      },
+    },
+    {
+      $match: {
+        "line_items.update": false,
+      },
+    },
+    {
+      $limit: 250,
+    },
+  ]);
 
-//   let inventory = await Inventory.aggregate([
-//     {
-//       $match: {
-//         updated: false,
-//       },
-//     },
-//   ]);
+  let inventory = await Inventory.aggregate([
+    {
+      $match: {
+        updated: false,
+      },
+    },
+  ]);
 
-//   let inventoryCost = await Inventory.aggregate([
-//     {
-//       $match: {
-//         $and: [
-//           {
-//             item_quantity: {
-//               $gt: 0,
-//             },
-//           },
-//           {
-//             total_cost: {
-//               $gt: 0,
-//             },
-//           },
-//           {
-//             createdAt: {
-//               $gte: new Date(last),
-//               $lte: new Date(today),
-//             },
-//           },
-//         ],
-//       },
-//     },
-//     {
-//       $group: {
-//         _id: "$item_name",
-//         TotalCost: {
-//           $sum: "$total_cost",
-//         },
-//         TotalQuantity: {
-//           $sum: "$item_quantity",
-//         },
-//         LastUpdatedAt: {
-//           $last: "$updatedAt",
-//         },
-//       },
-//     },
-//   ]);
+  let inventoryCost = await Inventory.aggregate([
+    {
+      $match: {
+        $and: [
+          {
+            item_quantity: {
+              $gt: 0,
+            },
+          },
+          {
+            total_cost: {
+              $gt: 0,
+            },
+          },
+          {
+            createdAt: {
+              $gte: new Date(last),
+              $lte: new Date(today),
+            },
+          },
+        ],
+      },
+    },
+    {
+      $group: {
+        _id: "$item_name",
+        TotalCost: {
+          $sum: "$total_cost",
+        },
+        TotalQuantity: {
+          $sum: "$item_quantity",
+        },
+        LastUpdatedAt: {
+          $last: "$updatedAt",
+        },
+      },
+    },
+  ]);
 
-//   try {
-//     (async () => {
-//       try {
-//         for (let j = 0; j < receipts.length; j++) {
-//           let name =
-//             receipts[j].line_items.variant_name &&
-//             receipts[j].line_items.variant_name !== undefined &&
-//             receipts[j].line_items.variant_name.split("/")[0].trim();
+  try {
+    (async () => {
+      try {
+        for (let j = 0; j < receipts.length; j++) {
+          let name =
+            receipts[j].line_items.variant_name &&
+            receipts[j].line_items.variant_name !== undefined &&
+            receipts[j].line_items.variant_name.split("/")[0].trim();
 
-//           let size =
-//             receipts[j].line_items.variant_name &&
-//             receipts[j].line_items.variant_name.split("/")[1] !== undefined &&
-//             receipts[j].line_items.variant_name.split("/")[1].trim();
+          let size =
+            receipts[j].line_items.variant_name &&
+            receipts[j].line_items.variant_name.split("/")[1] !== undefined &&
+            receipts[j].line_items.variant_name.split("/")[1].trim();
 
-//           if (
-//             receipts[j].line_items.variant_name === "Small" ||
-//             receipts[j].line_items.variant_name === "Big" ||
-//             receipts[j].line_items.variant_name === null
-//           ) {
-//             name =
-//               receipts[j].line_items.item_name === "Roti & Naan"
-//                 ? "Roti"
-//                 : receipts[j].line_items.item_name;
-//             size = receipts[j].line_items.variant_name;
-//           }
+          if (
+            receipts[j].line_items.variant_name === "Small" ||
+            receipts[j].line_items.variant_name === "Big" ||
+            receipts[j].line_items.variant_name === null
+          ) {
+            name =
+              receipts[j].line_items.item_name === "Roti & Naan"
+                ? "Roti"
+                : receipts[j].line_items.item_name;
+            size = receipts[j].line_items.variant_name;
+          }
 
-//           let inventoryLevel = await InventoryLevel.findOne({ item: name });
+          let inventoryLevel = await InventoryLevel.findOne({ item: name });
 
-//           if (inventoryLevel) {
-//             let totalQuantity =
-//               inventoryLevel.in_stock - receipts[j].line_items.quantity;
+          if (inventoryLevel) {
+            let totalQuantity =
+              inventoryLevel.in_stock - receipts[j].line_items.quantity;
 
-//             await InventoryLevel.findOneAndUpdate(
-//               { _id: inventoryLevel._id },
-//               {
-//                 $set: {
-//                   updated_at_receipt: receipts[j].receipt_date,
-//                   in_stock: totalQuantity,
-//                 },
-//               },
-//               { useFindAndModify: false }
-//             );
+            await InventoryLevel.findOneAndUpdate(
+              { _id: inventoryLevel._id },
+              {
+                $set: {
+                  updated_at_receipt: receipts[j].receipt_date,
+                  in_stock: totalQuantity,
+                },
+              },
+              { useFindAndModify: false }
+            );
 
-//             await Receipt.findOneAndUpdate(
-//               {
-//                 "line_items._id": receipts[j].line_items._id,
-//               },
-//               {
-//                 $set: {
-//                   "line_items.$.update": true,
-//                 },
-//               },
-//               { useFindAndModify: false }
-//             );
-//           } else {
-//             let recipes = await Recipe.findOne({ label: name });
+            await Receipt.findOneAndUpdate(
+              {
+                "line_items._id": receipts[j].line_items._id,
+              },
+              {
+                $set: {
+                  "line_items.$.update": true,
+                },
+              },
+              { useFindAndModify: false }
+            );
+          } else {
+            let recipes = await Recipe.findOne({ label: name });
 
-//             if (recipes) {
-//               for (let k = 0; k < recipes.ingredients.length; k++) {
-//                 let inventoryLevelRecipe = await InventoryLevel.findOne({
-//                   item: recipes.ingredients[k].text,
-//                 });
+            if (recipes) {
+              for (let k = 0; k < recipes.ingredients.length; k++) {
+                let inventoryLevelRecipe = await InventoryLevel.findOne({
+                  item: recipes.ingredients[k].text,
+                });
 
-//                 if (inventoryLevelRecipe) {
-//                   let newQuantitySize =
-//                     size && size === "Half"
-//                       ? receipts[j].line_items.quantity / 2
-//                       : receipts[j].line_items.quantity;
+                if (inventoryLevelRecipe) {
+                  let newQuantitySize =
+                    size && size === "Half"
+                      ? receipts[j].line_items.quantity / 2
+                      : receipts[j].line_items.quantity;
 
-//                   let totalQuantityRecipe =
-//                     newQuantitySize &&
-//                     (recipes.ingredients[k].weight / 1000) * newQuantitySize;
+                  let totalQuantityRecipe =
+                    newQuantitySize &&
+                    (recipes.ingredients[k].weight / 1000) * newQuantitySize;
 
-//                   let updateStock =
-//                     inventoryLevelRecipe.in_stock - totalQuantityRecipe;
+                  let updateStock =
+                    inventoryLevelRecipe.in_stock - totalQuantityRecipe;
 
-//                   await InventoryLevel.findOneAndUpdate(
-//                     { item: recipes.ingredients[k].text },
-//                     {
-//                       $set: {
-//                         updated_at_receipt: receipts[j].receipt_date,
-//                         in_stock: updateStock,
-//                       },
-//                     },
-//                     { useFindAndModify: false }
-//                   );
+                  await InventoryLevel.findOneAndUpdate(
+                    { item: recipes.ingredients[k].text },
+                    {
+                      $set: {
+                        updated_at_receipt: receipts[j].receipt_date,
+                        in_stock: updateStock,
+                      },
+                    },
+                    { useFindAndModify: false }
+                  );
 
-//                   await Receipt.findOneAndUpdate(
-//                     {
-//                       "line_items._id": receipts[j].line_items._id,
-//                     },
-//                     {
-//                       $set: {
-//                         "line_items.$.update": true,
-//                       },
-//                     },
-//                     { useFindAndModify: false }
-//                   );
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     })();
+                  await Receipt.findOneAndUpdate(
+                    {
+                      "line_items._id": receipts[j].line_items._id,
+                    },
+                    {
+                      $set: {
+                        "line_items.$.update": true,
+                      },
+                    },
+                    { useFindAndModify: false }
+                  );
+                }
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    })();
 
-//     (async () => {
-//       try {
-//         for (let i = 0; i < inventoryCost.length; i++) {
-//           let averageCost =
-//             inventoryCost[i].TotalCost / inventoryCost[i].TotalQuantity;
-//           await InventoryLevel.findOneAndUpdate(
-//             { item: inventoryCost[i]._id },
-//             {
-//               $set: {
-//                 average_cost: averageCost,
-//               },
-//             },
-//             { useFindAndModify: false }
-//           );
-//         }
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     })();
+    (async () => {
+      try {
+        for (let i = 0; i < inventoryCost.length; i++) {
+          let averageCost =
+            inventoryCost[i].TotalCost / inventoryCost[i].TotalQuantity;
+          await InventoryLevel.findOneAndUpdate(
+            { item: inventoryCost[i]._id },
+            {
+              $set: {
+                average_cost: averageCost,
+              },
+            },
+            { useFindAndModify: false }
+          );
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    })();
 
-//     (async () => {
-//       try {
-//         for (let i = 0; i < inventory.length; i++) {
-//           if (inventory[i].updated === false) {
-//             await InventoryLevel.findOneAndUpdate(
-//               { item: inventory[i].item_name },
-//               {
-//                 $set: {
-//                   updated_at_inventory: inventory[i].createdAt,
-//                 },
-//                 $inc: {
-//                   in_stock: inventory[i].item_quantity,
-//                 },
-//               },
-//               { useFindAndModify: false }
-//             );
+    let data;
+    (async () => {
+      try {
+        for (let i = 0; i < inventory.length; i++) {
+          if (inventory[i].updated === false) {
+            await InventoryLevel.findOneAndUpdate(
+              { item: inventory[i].item_name },
+              {
+                $set: {
+                  updated_at_inventory: inventory[i].createdAt,
+                },
+                $inc: {
+                  in_stock: inventory[i].item_quantity,
+                },
+              },
+              { useFindAndModify: false }
+            );
 
-//             await Inventory.findOneAndUpdate(
-//               {
-//                 _id: inventory[i]._id,
-//               },
-//               {
-//                 $set: {
-//                   updated: true,
-//                 },
-//               },
-//               { useFindAndModify: false }
-//             );
-//           }
-//         }
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     })();
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
+            data = await Inventory.findOneAndUpdate(
+              {
+                _id: inventory[i]._id,
+              },
+              {
+                $set: {
+                  updated: true,
+                },
+              },
+              { useFindAndModify: false }
+            );
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 // setInterval(intervalFunction, 6000);
 
@@ -255,6 +258,7 @@ router.route("/").get(
   protect,
   admin,
   asyncHandler(async (req, res) => {
+    const data = await intervalFunction();
     const inventoryLevel = await InventoryLevel.find({});
     res.status(201).json(inventoryLevel);
   })
