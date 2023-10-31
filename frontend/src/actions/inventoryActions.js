@@ -47,10 +47,9 @@ export const listInventory = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `/api/inventory`, config
-    );
+    const { data } = await axios.get(`/api/inventory`, config);
 
+    console.log({ data });
 
     dispatch({
       type: INVENTORY_LIST_SUCCESS,
@@ -71,7 +70,6 @@ export const listInventory = () => async (dispatch, getState) => {
   }
 };
 
-
 export const salaryInventory = () => async (dispatch, getState) => {
   try {
     dispatch({ type: INVENTORY_SALARY_REQUEST });
@@ -86,10 +84,7 @@ export const salaryInventory = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `/api/inventory/salary`, config
-    );
-
+    const { data } = await axios.get(`/api/inventory/salary`, config);
 
     dispatch({
       type: INVENTORY_SALARY_SUCCESS,
@@ -124,11 +119,7 @@ export const unpaidInventory = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `/api/inventory/unpaid`, config
-    );
-
-
+    const { data } = await axios.get(`/api/inventory/unpaid`, config);
 
     dispatch({
       type: INVENTORY_UNPAID_SUCCESS,
@@ -149,44 +140,46 @@ export const unpaidInventory = () => async (dispatch, getState) => {
   }
 };
 
-export const listDatesInventory = (startDate,endDate) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: INVENTORY_DATES_REQUEST });
+export const listDatesInventory =
+  (startDate, endDate) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: INVENTORY_DATES_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.get(
-      `/api/inventory/dates?startDate=${startDate}&endDate=${endDate}`, config
-    );
+      const { data } = await axios.get(
+        `/api/inventory/dates?startDate=${startDate}&endDate=${endDate}`,
+        config
+      );
 
-    // console.log(inventory)
+      // console.log(inventory)
 
-    dispatch({
-      type: INVENTORY_DATES_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    if (message === "Not authorized, token failed") {
-      dispatch(logout());
+      dispatch({
+        type: INVENTORY_DATES_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
+      dispatch({
+        type: INVENTORY_DATES_FAIL,
+        payload: message,
+      });
     }
-    dispatch({
-      type: INVENTORY_DATES_FAIL,
-      payload: message,
-    });
-  }
-};
+  };
 
 export const costInventory = () => async (dispatch, getState) => {
   try {

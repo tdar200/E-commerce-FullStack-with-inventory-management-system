@@ -28,6 +28,8 @@ const InventoryLevelListScreen = ({ history }) => {
   const inventoryLevels = useSelector((state) => state.inventoryLevelList);
   const { loading, inventoryLevel } = inventoryLevels;
 
+  console.log({ inventoryLevel });
+
   const inventoryCosts = useSelector((state) => state.inventoryCost);
   const { loading: loadingCost, inventoryCost } = inventoryCosts;
 
@@ -35,14 +37,16 @@ const InventoryLevelListScreen = ({ history }) => {
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo || userInfo.isAdmin) {
-      dispatch(groupedInventoryLevel());
-      dispatch(listInventoryLevel());
-      dispatch(costInventory());
-    } else {
+    if (!userInfo || !userInfo.isAdmin) {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo]);
+  }, [history, userInfo]);
+
+  useEffect(() => {
+    dispatch(groupedInventoryLevel());
+    dispatch(listInventoryLevel());
+    dispatch(costInventory());
+  }, [dispatch]);
 
   // const costs = inventoryCost.map((item) => ({
   //   item_name: item._id,

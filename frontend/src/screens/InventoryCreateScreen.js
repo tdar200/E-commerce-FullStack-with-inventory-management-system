@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-// import Paginate from "../components/Paginate";
 import { createInventory } from "../actions/inventoryActions";
 import {
   listInventoryLevel,
@@ -32,8 +31,6 @@ const InventoryCreateScreen = ({ history }) => {
     success: successCreate,
   } = inventoryCreate;
 
-  // console.log({ inventoryCreate });
-
   const inventoryLevelList = useSelector((state) => state.inventoryLevelList);
   const {
     loading: loadingList,
@@ -50,13 +47,7 @@ const InventoryCreateScreen = ({ history }) => {
     (state) => state.inventoryLevelGrouped
   );
 
-  // console.log({ inventoryLevelGrouped });
-
-  // console.log(inventoryCategory);
-
   const inventoryCategory = useSelector((state) => state);
-
-  // console.log({ inventoryCategory });
 
   const userLogin = useSelector((state) => state.userLogin);
 
@@ -68,25 +59,24 @@ const InventoryCreateScreen = ({ history }) => {
     return item.category;
   });
 
-  const categoryList = useMemo(() => {
-    const remove_duplicates = (arr) => {
-      var obj = {};
-      var ret_arr = [];
-      for (var i = 0; i < arr.length; i++) {
-        obj[arr[i]] = true;
-      }
-      for (var key in obj) {
-        ret_arr.push({ label: key, value: true });
-      }
-      return ret_arr;
-    };
-    const list = remove_duplicates(CL).sort((a, b) =>
-      a.label.localeCompare(b.label)
-    );
+  // const categoryList = useMemo(() => {
+  //   const remove_duplicates = (arr) => {
+  //     var obj = {};
+  //     var ret_arr = [];
+  //     for (var i = 0; i < arr?.length; i++) {
+  //       obj[arr[i]] = true;
+  //     }
+  //     for (var key in obj) {
+  //       ret_arr.push({ label: key, value: true });
+  //     }
+  //     return ret_arr;
+  //   };
+  //   const list = remove_duplicates(CL).sort((a, b) =>
+  //     a.label.localeCompare(b.label)
+  //   );
 
-    return list;
-  }, [CL]);
-  // console.log({ categoryList });
+  //   return list;
+  // }, [CL]);
 
   const [category, setCategory] = useState();
   const [name, setName] = useState("");
@@ -98,19 +88,13 @@ const InventoryCreateScreen = ({ history }) => {
   const [datePaid, setDatePaid] = useState(todayDate);
   const [vendor, setVendor] = useState("");
 
-  // console.log(datePaid);
-
-  let undefine;
-
   useEffect(() => {
     if (!userInfo || !userInfo.isAdmin) {
       history.push("/login");
     }
+  }, [history, userInfo]);
 
-    if (categoryList) {
-      setCategory(categoryList[0]);
-    }
-
+  useEffect(() => {
     if (successCreate) {
       dispatch({ type: INVENTORY_CREATE_RESET });
       history.push(`/admin/inventorylist`);
@@ -127,15 +111,7 @@ const InventoryCreateScreen = ({ history }) => {
     } else {
       dispatch(listInventoryLevel());
     }
-  }, [
-    history,
-    userInfo,
-    successCreate,
-    errorCreate,
-    dispatch,
-    todayDate,
-    undefine,
-  ]);
+  }, [successCreate, errorCreate, dispatch, todayDate, history, userInfo]);
 
   useMemo(() => {
     if (quantity && cost) {
@@ -161,15 +137,23 @@ const InventoryCreateScreen = ({ history }) => {
     );
   };
 
-  if (!category && categoryList?.[0]) {
-    undefine = categoryList?.[0].label;
-  } else if (category && categoryList) {
-    undefine = category;
-  }
-
   const IL = inventoryLevel
-    ?.filter((items) => items.category === undefine && items)
-    ?.map((items) => ({ label: items.item, value: true }));
+    ?.map((items) => ({ label: items.item, value: true }))
+    .sort((a, b) => {
+      return a.label.localeCompare(b.label);
+    });
+
+  const setCategoryValue = (e) => {
+    setName(e.label);
+
+    const foundCategory = inventoryLevel.find((v) => {
+      return v.item === e.label;
+    });
+
+    setCategory(foundCategory.category);
+  };
+
+  console.log({ category });
 
   return (
     <>
@@ -186,74 +170,16 @@ const InventoryCreateScreen = ({ history }) => {
           <Message variant='danger'>{errorList}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            {/*
-             <Form.Group controlId='category'>
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter Category'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group> 
-            */}
             <Form.Group controlId='category'>
               <Form.Label>Category</Form.Label>
 
-              {categoryList?.[0] && (
-                <Select
-                  className='basic-single'
-                  classNamePrefix='select'
-                  isDisabled={false}
-                  isLoading={false}
-                  isClearable={false}
-                  isRtl={false}
-                  isSearchable={true}
-                  options={categoryList}
-                  name='products'
-                  onChange={(e) => setCategory(e.label)}
-                  value={categoryList.find(
-                    (option) => option.label === category
-                  )}
-                  required
-                />
-              )}
-            </Form.Group>
-
-            {/* 
-            <Form.Group>
-              {categoryList.map((item, idx) => {
-                return (
-                  <Form.Select key={idx} >
-                    <option></option>
-                  </Form.Select>
-                );
-              })}
-            </Form.Group> */}
-
-            {/* <Dropdown>
-              <Dropdown.Toggle variant='success' id='dropdown-basic'>
-                {category}
-              </Dropdown.Toggle>
-
-              {categoryList.map((item, idx) => {
-                return (
-                  <Dropdown.Menu key={idx}>
-                    <Dropdown.Item>{item}</Dropdown.Item>
-                  </Dropdown.Menu>
-                );
-              })}
-            </Dropdown> */}
-            {/* 
-            <Form.Group controlId='name'>
-              <Form.Label>Name</Form.Label>
               <Form.Control
-                type='name'
-                placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group> */}
+                type='text'
+                placeholder=''
+                required
+                readOnly
+                value={category}></Form.Control>
+            </Form.Group>
 
             {
               <Form.Group controlId='category'>
@@ -262,14 +188,14 @@ const InventoryCreateScreen = ({ history }) => {
                   className='basic-single'
                   classNamePrefix='select'
                   // defaultValue={}
-                  isDisabled={!category && true}
+                  isDisabled={false}
                   isLoading={false}
                   isClearable={false}
                   isRtl={false}
                   isSearchable={true}
                   options={IL}
                   name='products'
-                  onChange={(e) => setName(e.label)}
+                  onChange={(e) => setCategoryValue(e)}
                   required
                 />
               </Form.Group>
