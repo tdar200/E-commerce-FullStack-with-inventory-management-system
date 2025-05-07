@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { DateRangePicker } from "react-date-range";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+// import { DateRangePicker } from "react-date-range";
+// import "react-date-range/dist/styles.css";
+// import "react-date-range/dist/theme/default.css";
 import {
   groupInventory,
   listDatesInventory,
@@ -92,9 +92,9 @@ const FinancialSummaryScreen = (props) => {
           <div className='banner_search'>
             {showSearch && (
               <div className='search'>
-                <DateRangePicker
+                {/* <DateRangePicker
                   ranges={[selectionRange]}
-                  onChange={handleSelect}></DateRangePicker>
+                  onChange={handleSelect}></DateRangePicker> */}
                 <Button onClick={handleSubmit}>Search Inventory</Button>
               </div>
             )}
@@ -147,9 +147,9 @@ const FinancialSummaryScreen = (props) => {
           <div className='banner_search'>
             {showSearch && (
               <div className='search'>
-                <DateRangePicker
+                {/* <DateRangePicker
                   ranges={[selectionRange]}
-                  onChange={handleSelect}></DateRangePicker>
+                  onChange={handleSelect}></DateRangePicker> */}
                 <Button onClick={handleSubmit}>Search Inventory</Button>
               </div>
             )}

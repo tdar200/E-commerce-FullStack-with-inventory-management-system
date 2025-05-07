@@ -4,11 +4,11 @@ import { Table, Row, Button, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionActions from "@material-ui/core/AccordionActions";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionActions from "@mui/material/AccordionActions";
 import { costInventory } from "../actions/inventoryActions";
 
 import {
@@ -24,7 +24,7 @@ const InventoryLevelListScreen = ({ history }) => {
   );
   const {
     loading: loadingInventoryLevel,
-  
+
     inventoryLevelGrouped,
   } = inventoryLevelGroups;
 
@@ -32,10 +32,7 @@ const InventoryLevelListScreen = ({ history }) => {
   const { loading, inventoryLevel } = inventoryLevels;
 
   const inventoryCosts = useSelector((state) => state.inventoryCost);
-  const {
-    loading: loadingCost,
-    inventoryCost,
-  } = inventoryCosts;
+  const { loading: loadingCost, inventoryCost } = inventoryCosts;
 
   // console.log(inventoryCost);
 
@@ -69,9 +66,9 @@ const InventoryLevelListScreen = ({ history }) => {
           {/* <TotalStock/> */}
         </Col>
       </Row>
-      { loadingInventoryLevel && loading && loadingCost ? 
+      {loadingInventoryLevel && loading && loadingCost ? (
         <Loader />
-       : (
+      ) : (
         <>
           {/* <Table striped bordered hover responsive className='table-sm'> */}
           {/* <thead>
@@ -107,14 +104,12 @@ const InventoryLevelListScreen = ({ history }) => {
                 <tbody style={{ backgroundColor: "white" }} key={idx}>
                   <tr style={{ flex: 1, backgroundColor: "white" }}>
                     <Accordion
-                      style={{ width: "100%", backgroundColor: "white" }}
-                    >
+                      style={{ width: "100%", backgroundColor: "white" }}>
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls='panel1c-content'
                         id='panel1c-header'
-                        style={{ width: "100%" }}
-                      >
+                        style={{ width: "100%" }}>
                         <h6>{inventory._id}</h6>
                       </AccordionSummary>
 
@@ -123,8 +118,7 @@ const InventoryLevelListScreen = ({ history }) => {
                           bordered
                           hover
                           variant='light'
-                          style={{ width: "100%" }}
-                        >
+                          style={{ width: "100%" }}>
                           <thead>
                             <tr>
                               <th>LAST UPDATED</th>
@@ -142,9 +136,10 @@ const InventoryLevelListScreen = ({ history }) => {
                                   <tbody key={idx}>
                                     <tr>
                                       <td>
-                                        {items.updated_at && new Date(items.updated_at)
-                                          .toISOString()
-                                          .slice(0, 10)}
+                                        {items.updated_at &&
+                                          new Date(items.updated_at)
+                                            .toISOString()
+                                            .slice(0, 10)}
                                       </td>
                                       <td>{items.item}</td>
                                       <td>{items.in_stock}</td>

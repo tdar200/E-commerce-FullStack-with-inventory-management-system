@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { DateRangePicker } from "react-date-range";
+// import { DateRangePicker } from "react-date-range";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+// import "react-date-range/dist/styles.css";
+// import "react-date-range/dist/theme/default.css";
 // import Paginate from "../components/Paginate";
 import {
   listInventory,
@@ -129,9 +129,9 @@ const InventoryListScreen = ({ history, match }) => {
           <div className='banner_search'>
             {showSearch && (
               <div className='search'>
-                <DateRangePicker
+                {/* <DateRangePicker
                   ranges={[selectionRange]}
-                  onChange={handleSelect}></DateRangePicker>
+                  onChange={handleSelect}></DateRangePicker> */}
                 <Button onClick={handleSubmit}>Search Inventory</Button>
               </div>
             )}
@@ -205,9 +205,9 @@ const InventoryListScreen = ({ history, match }) => {
           <div className='banner_search'>
             {showSearch && (
               <div className='search'>
-                <DateRangePicker
+                {/* <DateRangePicker
                   ranges={[selectionRange]}
-                  onChange={handleSelect}></DateRangePicker>
+                  onChange={handleSelect}></DateRangePicker> */}
                 <Button onClick={handleSubmit}>Search Inventory</Button>
               </div>
             )}
