@@ -22,41 +22,36 @@ const InventoryLevelListScreen = ({ history }) => {
   const inventoryLevelGroups = useSelector(
     (state) => state.inventoryLevelGrouped
   );
-  const {
-    loading: loadingInventoryLevel,
-
-    inventoryLevelGrouped,
-  } = inventoryLevelGroups;
+  const { loading: loadingInventoryLevel, inventoryLevelGrouped } =
+    inventoryLevelGroups;
 
   const inventoryLevels = useSelector((state) => state.inventoryLevelList);
   const { loading, inventoryLevel } = inventoryLevels;
 
+  console.log({ inventoryLevel });
+
   const inventoryCosts = useSelector((state) => state.inventoryCost);
   const { loading: loadingCost, inventoryCost } = inventoryCosts;
-
-  // console.log(inventoryCost);
-
-  // console.log(inventoryLevel)
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo || userInfo.isAdmin) {
-      dispatch(groupedInventoryLevel());
-      dispatch(listInventoryLevel());
-      dispatch(costInventory());
-    } else {
+    if (!userInfo || !userInfo.isAdmin) {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo]);
+  }, [history, userInfo]);
+
+  useEffect(() => {
+    dispatch(groupedInventoryLevel());
+    dispatch(listInventoryLevel());
+    dispatch(costInventory());
+  }, [dispatch]);
 
   // const costs = inventoryCost.map((item) => ({
   //   item_name: item._id,
   //   average_cost: item.TotalCost / item.TotalQuantity,
   // }));
-
-  // console.log(inventoryLevel)
 
   return (
     <>
@@ -99,7 +94,7 @@ const InventoryLevelListScreen = ({ history }) => {
                 </th>
               </tr>
             </thead>
-            {inventoryLevelGrouped.map((inventory, idx) => {
+            {inventoryLevelGrouped?.map((inventory, idx) => {
               return (
                 <tbody style={{ backgroundColor: "white" }} key={idx}>
                   <tr style={{ flex: 1, backgroundColor: "white" }}>
@@ -129,7 +124,7 @@ const InventoryLevelListScreen = ({ history }) => {
                             </tr>
                           </thead>
                           {inventoryLevel &&
-                            inventoryLevel.map((items, idx) => {
+                            inventoryLevel?.map((items, idx) => {
                               // console.log(items)
                               if (items.category === inventory._id) {
                                 return (

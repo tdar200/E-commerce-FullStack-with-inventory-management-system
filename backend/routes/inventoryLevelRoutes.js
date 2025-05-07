@@ -9,7 +9,7 @@ const protect = require("../middleware/authMiddleware");
 const admin = require("../middleware/authMiddleware");
 const ObjectId = require("mongodb").ObjectId;
 
-async function intervalFunction() {
+const intervalFunction = async () => {
   const date = new Date();
   const today = new Date().toISOString();
   const last = new Date(
@@ -188,11 +188,14 @@ async function intervalFunction() {
       }
     })();
 
-    (async () => {
+    const average_cost_func = async () => {
       try {
         for (let i = 0; i < inventoryCost.length; i++) {
           let averageCost =
             inventoryCost[i].TotalCost / inventoryCost[i].TotalQuantity;
+
+          console.log({ name: inventoryCost[i]._id, averageCost });
+
           await InventoryLevel.findOneAndUpdate(
             { item: inventoryCost[i]._id },
             {
@@ -203,12 +206,14 @@ async function intervalFunction() {
             { useFindAndModify: false }
           );
         }
+        console.log("-----------------");
+        return true;
       } catch (err) {
         console.error(err);
       }
-    })();
+    };
 
-    (async () => {
+    const update_func = async () => {
       try {
         for (let i = 0; i < inventory.length; i++) {
           if (inventory[i].updated === false) {
@@ -225,7 +230,7 @@ async function intervalFunction() {
               { useFindAndModify: false }
             );
 
-            await Inventory.findOneAndUpdate(
+            data = await Inventory.findOneAndUpdate(
               {
                 _id: inventory[i]._id,
               },
@@ -238,25 +243,48 @@ async function intervalFunction() {
             );
           }
         }
+        return true;
       } catch (err) {
         console.error(err);
       }
-    })();
+    };
+
+    const [update, average_cost] = await Promise.all([
+      average_cost_func(),
+      update_func(),
+    ]);
+
+    console.log({ update, average_cost });
+
+    if (update && average_cost) {
+      return true;
+    }
   } catch (error) {
     console.error(error);
   }
-}
+};
 
-setInterval(intervalFunction, 6000);
+// setInterval(intervalFunction, 6000);
 
 // router.route("/updateinventory").get(protect, admin);
+
+let counter = 0;
 
 router.route("/").get(
   protect,
   admin,
   asyncHandler(async (req, res) => {
-    const inventoryLevel = await InventoryLevel.find({});
-    res.status(201).json(inventoryLevel);
+    const data = await intervalFunction();
+
+    let inventoryLevel;
+
+    console.log({ data });
+    if (data) {
+      inventoryLevel = await InventoryLevel.find({});
+      counter++;
+      console.log(counter);
+      res.status(201).json(inventoryLevel);
+    }
   })
 );
 
@@ -467,4 +495,8 @@ router.route("/:id").delete(
 //   })
 // );
 
+// Export router
 module.exports = router;
+
+// Export intervalFunction
+// module.exports = intervalFunction;

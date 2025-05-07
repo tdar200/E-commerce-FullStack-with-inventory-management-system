@@ -35,8 +35,6 @@ export const listReceipt =
         },
       };
 
-      console.log(pageNumber);
-
       if (pageNumber === "All") {
         const { data } = await axios.get(`/api/receipt?display=All`, config);
 

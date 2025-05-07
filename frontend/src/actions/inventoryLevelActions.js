@@ -37,7 +37,10 @@ export const listInventoryLevel = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
+
     const { data } = await axios.get(`/api/inventoryLevel`, config);
+
+    console.log({ data });
 
     dispatch({
       type: INVENTORYLEVEL_LIST_SUCCESS,
